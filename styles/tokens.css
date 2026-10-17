@@ -1,0 +1,195 @@
+/*
+ * Matched design tokens — the single source of truth for every visual value.
+ *
+ * Everything inside @theme becomes both a CSS variable on :root and a Tailwind
+ * utility (e.g. --color-ink → text-ink / bg-ink, --radius-sm → rounded-sm).
+ * Tailwind's default palette, radii, shadows and fonts are cleared so components
+ * can only reach for Matched tokens.
+ *
+ * Dark mode ("evening edition") redefines the same names under [data-theme='dark'].
+ * Motion springs used by Motion live in lib/motion.ts and mirror the timings here.
+ */
+
+@theme {
+  /* Reset Tailwind defaults: only Matched tokens exist. */
+  --color-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --drop-shadow-*: initial;
+  --font-*: initial;
+  --text-*: initial;
+  --ease-*: initial;
+
+  /* ── Color · paper & ink ─────────────────────────────── */
+  --color-paper: #f4efe6; /* page */
+  --color-paper-raised: #faf7f1; /* cards, sheets, tiles */
+  --color-paper-sunken: #eae3d6; /* wells, tracks, garment tiles */
+  --color-ink: #16130f; /* primary text, primary buttons */
+  --color-ink-muted: #5e574d; /* secondary text (6.2:1 on paper) */
+  --color-ink-subtle: #736b5f; /* tertiary text, placeholders (4.6:1 on paper) */
+  --color-on-ink: #f4efe6; /* text on ink surfaces */
+  --color-rule: rgb(22 19 15 / 0.14); /* hairlines */
+  --color-rule-strong: rgb(22 19 15 / 0.32); /* outlines, inputs */
+  --color-scrim: rgb(22 19 15 / 0.42); /* behind sheets and dialogs */
+
+  /* ── Color · accent (tailor's chalk red) ─────────────── */
+  --color-accent: #a8352a;
+  --color-accent-ink: #fbf6ee; /* text on accent */
+  --color-accent-soft: rgb(168 53 42 / 0.1); /* selected chips, tints */
+
+  /* ── Color · semantic ────────────────────────────────── */
+  --color-matched: var(--color-accent); /* verdict ≥ 75 */
+  --color-works: var(--color-ink); /* verdict 55–74 */
+  --color-rethink: #8a5a12; /* verdict < 55, warnings */
+  --color-rethink-soft: rgb(138 90 18 / 0.1);
+  --color-focus: var(--color-accent);
+
+  /* ── Color · props ───────────────────────────────────── */
+  --color-metal: #9b968e; /* clothes-rail rod */
+  --color-metal-highlight: #e9e6e1;
+  --color-metal-shadow: #6c675f;
+
+  /* ── Typography ──────────────────────────────────────── */
+  --font-display: var(--font-bodoni), 'Didot', 'Bodoni 72', Georgia, serif;
+  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --text-micro: 0.6875rem; /* 11px · small-caps labels */
+  --text-micro--line-height: 1.2;
+  --text-caption: 0.8125rem; /* 13px */
+  --text-caption--line-height: 1.4;
+  --text-body: 0.9375rem; /* 15px */
+  --text-body--line-height: 1.55;
+  --text-lead: 1.125rem; /* 18px */
+  --text-lead--line-height: 1.5;
+  --text-title: 1.5rem; /* 24px · serif card titles */
+  --text-title--line-height: 1.15;
+  --text-subhead: clamp(1.75rem, 1.4rem + 1.6vw, 2.625rem); /* section lines, empty states */
+  --text-subhead--line-height: 1.08;
+  --text-headline: clamp(2.25rem, 1.6rem + 3vw, 3.75rem); /* page titles */
+  --text-headline--line-height: 1;
+  --text-display: clamp(3.25rem, 2rem + 7vw, 7.5rem); /* welcome, mastheads */
+  --text-display--line-height: 0.92;
+  --text-numeral: clamp(3.5rem, 2.75rem + 3vw, 5rem); /* match scores */
+  --text-numeral--line-height: 0.9;
+
+  --tracking-caps: 0.16em;
+  --tracking-tight: -0.015em;
+  --tracking-display: -0.03em;
+
+  /* ── Radius (editorial: mostly crisp) ────────────────── */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-pill: 9999px;
+
+  /* ── Spacing ─────────────────────────────────────────── */
+  /* Numeric utilities (p-4, gap-6…) step in 4px units from --spacing. */
+  --spacing: 0.25rem;
+  /* Named layout spacing; gutter/section grow on desktop (see below). */
+  --spacing-gutter: 1rem;
+  --spacing-section: 3rem;
+  --spacing-tabbar: 4rem; /* mobile tab bar height */
+  --spacing-masthead: 3.5rem; /* mobile top bar height */
+  --spacing-rail: 15rem; /* desktop nav rail width */
+  --spacing-fab: 3.5rem; /* floating add button */
+  --spacing-hit: 2.75rem; /* minimum touch target */
+  --spacing-ring-sm: 4rem;
+  --spacing-ring-md: 7.5rem;
+  --spacing-ring-lg: 11rem;
+  --spacing-swatch: 0.875rem;
+
+  --container-page: 76rem;
+  --container-prose: 34rem;
+
+  /* ── Shadow ──────────────────────────────────────────── */
+  --shadow-lift: 0 1px 0 rgb(22 19 15 / 0.04), 0 14px 28px -16px rgb(22 19 15 / 0.22);
+  --shadow-float: 0 12px 32px -10px rgb(22 19 15 / 0.38), 0 2px 6px rgb(22 19 15 / 0.12);
+  --shadow-inset: inset 0 1px 2px rgb(22 19 15 / 0.08);
+  --drop-shadow-garment: 0 16px 14px rgb(22 19 15 / 0.2);
+
+  /* ── Easing ──────────────────────────────────────────── */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-emphasized: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  /* A spring-like overshoot for CSS-only transitions. */
+  --ease-spring: linear(
+    0, 0.009, 0.035 2.1%, 0.141 4.4%, 0.723 12.9%, 0.938 16.7%, 1.017 19.4%, 1.067, 1.099 24.3%,
+    1.108 26%, 1.1 27.7%, 1.078 29.9%, 1.002 37%, 0.981 41.4%, 0.976 45.2%, 0.981 51.3%, 0.999 66%, 1
+  );
+}
+
+/* Non-utility tokens: referenced as var(--…) or Tailwind's (--token) shorthand. */
+:root {
+  --duration-instant: 90ms;
+  --duration-fast: 140ms;
+  --duration-base: 240ms;
+  --duration-slow: 420ms;
+
+  --scale-press: 0.97;
+  --opacity-disabled: 0.4;
+  --opacity-dimmed: 0.35; /* non-matching items during match search */
+  --hairline: 1px;
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 3px;
+  --ring-stroke: 3px; /* score ring stroke */
+
+  --z-base: 0;
+  --z-nav: 40;
+  --z-fab: 45;
+  --z-overlay: 60;
+  --z-toast: 70;
+
+  --grain-opacity: 0.5;
+  --texture-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.09 0 0 0 0 0.07 0 0 0 0 0.06 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (min-width: 64rem) {
+  :root {
+    --spacing-gutter: 2.5rem;
+    --spacing-section: 5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-instant: 1ms;
+    --duration-fast: 1ms;
+    --duration-base: 1ms;
+    --duration-slow: 1ms;
+    --scale-press: 1;
+  }
+}
+
+/* ── Evening edition ───────────────────────────────────── */
+[data-theme='dark'] {
+  --color-paper: #14110d;
+  --color-paper-raised: #1d1914;
+  --color-paper-sunken: #0d0b08;
+  --color-ink: #f1e9da;
+  --color-ink-muted: #b5ab9b;
+  --color-ink-subtle: #968c7c;
+  --color-on-ink: #14110d;
+  --color-rule: rgb(241 233 218 / 0.14);
+  --color-rule-strong: rgb(241 233 218 / 0.34);
+  --color-scrim: rgb(0 0 0 / 0.6);
+
+  --color-accent: #e36b57;
+  --color-accent-ink: #14110d;
+  --color-accent-soft: rgb(227 107 87 / 0.14);
+
+  --color-rethink: #d9a04a;
+  --color-rethink-soft: rgb(217 160 74 / 0.14);
+
+  --color-metal: #7d786f;
+  --color-metal-highlight: #c9c4bb;
+  --color-metal-shadow: #3f3b35;
+
+  --shadow-lift: 0 1px 0 rgb(0 0 0 / 0.3), 0 16px 32px -16px rgb(0 0 0 / 0.7);
+  --shadow-float: 0 14px 36px -10px rgb(0 0 0 / 0.75), 0 2px 6px rgb(0 0 0 / 0.4);
+  --shadow-inset: inset 0 1px 2px rgb(0 0 0 / 0.4);
+  --drop-shadow-garment: 0 16px 14px rgb(0 0 0 / 0.5);
+
+  --grain-opacity: 0.6;
+  --texture-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.91 0 0 0 0 0.85 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
