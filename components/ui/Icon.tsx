@@ -50,6 +50,20 @@ const glyphs = {
   'arrow-left': <path d="M19 12H5M11 6l-6 6 6 6" />,
   close: <path d="M6 6l12 12M18 6 6 18" />,
   check: <path d="M5 12.5l4.5 4.5L19 7.5" />,
+  alert: (
+    <>
+      <path d="M12 7.5v6" />
+      <circle cx="12" cy="16.75" r="0.9" fill="currentColor" stroke="none" />
+    </>
+  ),
+  dice: (
+    <>
+      <rect x="4.5" y="4.5" width="15" height="15" rx="3" />
+      <circle cx="9" cy="9" r="1" fill="currentColor" stroke="none" />
+      <circle cx="15" cy="15" r="1" fill="currentColor" stroke="none" />
+      <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" />
+    </>
+  ),
   shuffle: <path d="M3 7h3.5c1.9 0 3 .9 4 2.5l3 5c1 1.6 2.1 2.5 4 2.5H21M3 17h3.5c1 0 1.7-.25 2.3-.75M15.2 7.75c.6-.5 1.3-.75 2.3-.75H21M18 4l3 3-3 3M18 14l3 3-3 3" />,
   camera: (
     <>

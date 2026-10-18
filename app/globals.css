@@ -16,6 +16,9 @@
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     -webkit-tap-highlight-color: transparent;
+    /* Keep focused and scrolled-to elements clear of the sticky bars. */
+    scroll-padding-top: calc(var(--spacing-masthead) + env(safe-area-inset-top));
+    scroll-padding-bottom: calc(var(--spacing-footer) + env(safe-area-inset-bottom));
   }
 
   html[data-theme='dark'] {

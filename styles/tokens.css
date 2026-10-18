@@ -98,6 +98,10 @@
   --spacing-ring-md: 7.5rem;
   --spacing-ring-lg: 11rem;
   --spacing-swatch: 0.875rem;
+  --spacing-ruler: 20rem; /* height slider track */
+  --spacing-stage: 36svh; /* avatar stage on mobile */
+  --spacing-hero: 44svh; /* welcome figure on mobile */
+  --spacing-footer: 6rem; /* sticky action bar on mobile */
 
   --container-page: 76rem;
   --container-prose: 34rem;
@@ -135,6 +139,7 @@
   --ring-stroke: 3px; /* score ring stroke */
 
   --z-base: 0;
+  --z-stage: 10; /* pinned avatar stage, under the header */
   --z-nav: 40;
   --z-fab: 45;
   --z-overlay: 60;

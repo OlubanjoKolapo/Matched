@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { AppearanceSetting } from '@/components/settings/AppearanceSetting';
+import { ClearDataSetting } from '@/components/settings/ClearDataSetting';
+import { ProfileSettings } from '@/components/settings/ProfileSettings';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Hairline } from '@/components/ui/Hairline';
 import { Heading } from '@/components/ui/Heading';
@@ -37,6 +39,14 @@ export default function SettingsPage() {
         }
         title={<em>Settings</em>}
       />
+      <section aria-labelledby="profile" className="max-w-page pb-10">
+        <p id="profile" className="caps pb-2 text-ink-muted">
+          Profile
+        </p>
+        <Hairline />
+        <ProfileSettings />
+        <Hairline />
+      </section>
       <section aria-labelledby="appearance" className="max-w-page">
         <p id="appearance" className="caps pb-2 text-ink-muted">
           Appearance
@@ -54,6 +64,19 @@ export default function SettingsPage() {
             Open showcase
             <Icon name="arrow-right" className="size-4" />
           </Link>
+        </SettingRow>
+        <Hairline />
+      </section>
+      <section aria-labelledby="data" className="max-w-page pt-10">
+        <p id="data" className="caps pb-2 text-ink-muted">
+          Your data
+        </p>
+        <Hairline />
+        <SettingRow
+          title="Clear all data"
+          description="Removes your wardrobe, outfits and profile from this device. This can’t be undone."
+        >
+          <ClearDataSetting />
         </SettingRow>
         <Hairline />
       </section>

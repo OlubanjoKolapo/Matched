@@ -218,7 +218,7 @@ export function Avatar({ config, heightCm, outfit = [], idle = true, dropIn = fa
           animate={idleAnimation ? { scaleY: [1, 1.006, 1] } : { scaleY: 1 }}
           transition={idleAnimation ? { duration: 4.2, repeat: Infinity, ease: 'easeInOut' } : { duration: 0.3 }}
         >
-          {hair.back ? <Surface d={hair.back} look={hairLook} uid={uid} transition={transition} outlined={false} /> : null}
+          {hair.back ? <Surface key={`hair-back-${config.hair}`} d={hair.back} look={hairLook} uid={uid} transition={transition} outlined={false} /> : null}
 
           {/* Body */}
           <Surface d={body.legs} look={skinLook} uid={uid} transition={transition} />
@@ -286,8 +286,8 @@ export function Avatar({ config, heightCm, outfit = [], idle = true, dropIn = fa
           <Shape d={body.brows} stroke={shade(hairColor, -0.2)} strokeWidth={1.1} transition={transition} />
           <Shape d={body.nose} stroke={shade(skin, -0.3)} strokeWidth={0.9} transition={transition} />
           <Shape d={body.mouth} stroke={shade(skin, -0.38)} strokeWidth={1.1} transition={transition} />
-          <Surface d={hair.front} look={hairLook} uid={uid} transition={transition} outlined={false} />
-          {hair.strands ? <Surface d={hair.strands} look={hairLook} uid={uid} transition={transition} outlined={false} /> : null}
+          <Surface key={`hair-front-${config.hair}`} d={hair.front} look={hairLook} uid={uid} transition={transition} outlined={false} />
+          {hair.strands ? <Surface key={`hair-strands-${config.hair}`} d={hair.strands} look={hairLook} uid={uid} transition={transition} outlined={false} /> : null}
 
           <Surface d={body.hands} look={skinLook} uid={uid} transition={transition} />
         </motion.g>

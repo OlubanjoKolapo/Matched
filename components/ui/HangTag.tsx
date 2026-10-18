@@ -22,7 +22,7 @@ export function HangTag({
   return (
     <span
       className={cx(
-        'shape-hang-tag caps inline-flex h-6 items-center gap-1.5 pr-2.5 pl-3.5 drop-shadow-garment',
+        'shape-hang-tag caps inline-flex h-6 items-center gap-1.5 pr-2.5 pl-3.5 whitespace-nowrap drop-shadow-garment',
         tones[tone],
         className,
       )}
