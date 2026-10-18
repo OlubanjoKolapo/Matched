@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+  <defs>
+    <pattern id="knit" width="10" height="8" patternUnits="userSpaceOnUse"><path d="M0 0l5 6 5-6" fill="none" stroke="#000" stroke-opacity=".07" stroke-width="1.2"/></pattern>
+    <pattern id="rib" width="6" height="10" patternUnits="userSpaceOnUse"><path d="M3 0v10" stroke="#000" stroke-opacity=".14" stroke-width="1.5"/></pattern>
+  </defs>
+  <path id="body" d="M150 74c20 22 80 22 100 0l78 28c20 8 30 24 34 44l26 254-50 12-30-180v222c-70 12-146 12-216 0V232l-30 180-50-12 26-254c4-20 14-36 34-44z" fill="#efe6d2" stroke="#000" stroke-opacity=".16" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M150 74c20 22 80 22 100 0l78 28c20 8 30 24 34 44l26 254-50 12-30-180v222c-70 12-146 12-216 0V232l-30 180-50-12 26-254c4-20 14-36 34-44z" fill="url(#knit)"/>
+  <path d="M146 70c18 44 90 44 108 0l-4 4c-20 22-80 22-100 0z" fill="#e6dcc4" stroke="#000" stroke-opacity=".14"/>
+  <path d="M150 74c20 22 80 22 100 0-4 18-24 32-50 32s-46-14-50-32z" fill="#000" opacity=".06"/>
+  <path d="M92 432c70 12 146 12 216 0v22c-70 12-146 12-216 0z" fill="#e6dcc4"/>
+  <path d="M92 432c70 12 146 12 216 0v22c-70 12-146 12-216 0z" fill="url(#rib)"/>
+  <path d="M14 384l50 10-4 26-50-12zM386 384l-50 10 4 26 50-12z" fill="#e6dcc4"/>
+  <path d="M14 384l50 10-4 26-50-12zM386 384l-50 10 4 26 50-12z" fill="url(#rib)"/>
+  <path d="M308 232v200c-16 3-34 5-52 7l6-207z" fill="#000" opacity=".05"/>
+</svg>

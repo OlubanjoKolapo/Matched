@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+  <defs>
+    <pattern id="suede" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r=".8" fill="#000" opacity=".12"/><circle cx="5" cy="5" r=".6" fill="#fff" opacity=".08"/></pattern>
+  </defs>
+  <path d="M40 336c-2-20 12-36 44-42l116-8c36-4 100 6 144 24 20 8 26 22 22 34H40z" fill="#6f4a33" stroke="#000" stroke-opacity=".22" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M40 336c-2-20 12-36 44-42l116-8c36-4 100 6 144 24 20 8 26 22 22 34H40z" fill="url(#suede)"/>
+  <path d="M64 300c36-6 86-8 132-6-46 10-96 12-132 6z" fill="#000" opacity=".4"/>
+  <path d="M210 296c30-6 90 0 122 16-12 14-52 18-84 14-22-4-38-14-38-30z" fill="#7a5239" stroke="#3a2618" stroke-opacity=".6" stroke-width="1.5" stroke-dasharray="3 3"/>
+  <path d="M200 304c20-8 52-4 68 6l-6 10c-16-8-40-10-58-4z" fill="#5a3a27"/>
+  <ellipse cx="234" cy="308" rx="10" ry="3" fill="#000" opacity=".45"/>
+  <path d="M36 342h334c2 10-4 16-14 18H46c-8-2-12-10-10-18z" fill="#3a2618"/>
+  <path d="M40 342h56v24H44z" fill="#2b1c12"/>
+  <path d="M300 306c26 8 50 18 58 30" fill="none" stroke="#fff" stroke-opacity=".12" stroke-width="3"/>
+</svg>

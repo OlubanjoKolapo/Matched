@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+  <defs>
+    <pattern id="twill" width="6" height="6" patternUnits="userSpaceOnUse"><path d="M0 6 6 0" stroke="#000" stroke-opacity=".08" stroke-width="1.2"/></pattern>
+  </defs>
+  <path d="M150 66h100l80 30c20 8 30 24 34 44l28 262-50 12-30-186v236c-72 12-152 12-224 0V228l-30 186-50-12 28-262c4-20 14-36 34-44z" fill="#5a5f3a" stroke="#000" stroke-opacity=".22" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M150 66h100l80 30c20 8 30 24 34 44l28 262-50 12-30-186v236c-72 12-152 12-224 0V228l-30 186-50-12 28-262c4-20 14-36 34-44z" fill="url(#twill)"/>
+  <path d="M150 66l50 48-34 22-28-52zM250 66l-50 48 34 22 28-52z" fill="#646a42" stroke="#000" stroke-opacity=".25" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M194 114h12v348h-12z" fill="#000" opacity=".1"/>
+  <g fill="#2f2a22"><circle cx="200" cy="152" r="5"/><circle cx="200" cy="212" r="5"/><circle cx="200" cy="272" r="5"/><circle cx="200" cy="332" r="5"/><circle cx="200" cy="392" r="5"/></g>
+  <g fill="#000" opacity=".14"><path d="M120 170h52v58h-52z"/><path d="M228 170h52v58h-52z"/></g>
+  <g fill="#646a42" stroke="#000" stroke-opacity=".25" stroke-width="2"><path d="M118 166h56v20l-28 6-28-6z"/><path d="M226 166h56v20l-28 6-28-6z"/></g>
+  <path d="M16 386l50 10-4 28-50-12zM384 386l-50 10 4 28 50-12z" fill="#000" opacity=".14"/>
+  <path d="M312 228v232c-16 3-34 5-52 6l6-238z" fill="#000" opacity=".12"/>
+  <path d="M88 228v232c16 3 34 5 52 6l-6-238z" fill="#fff" opacity=".05"/>
+</svg>

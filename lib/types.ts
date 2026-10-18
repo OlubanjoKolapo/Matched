@@ -65,6 +65,8 @@ export interface ItemColor {
 
 export interface Item {
   id: string;
+  /** Display name, e.g. "Forest Green Hoodie". Derived from color + subtype when absent. */
+  name?: string;
   track: Track;
   category: Category;
   /** Free-form garment type: 'hoodie', 'jeans', 'loafer', 'midi skirt'. */
@@ -84,6 +86,24 @@ export interface Item {
   createdAt: string;
   taggedBy: 'ai' | 'user';
 }
+
+/** The tag fields the rules engine reads. Any Item satisfies it; no photos needed. */
+export type ItemTags = Pick<
+  Item,
+  | 'id'
+  | 'name'
+  | 'track'
+  | 'category'
+  | 'subtype'
+  | 'fit'
+  | 'shoeProfile'
+  | 'rise'
+  | 'length'
+  | 'colors'
+  | 'pattern'
+  | 'material'
+  | 'formality'
+>;
 
 export interface AvatarConfig {
   skinTone: string;

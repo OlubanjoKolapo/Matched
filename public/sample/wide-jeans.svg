@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+  <defs>
+    <pattern id="denim" width="5" height="5" patternUnits="userSpaceOnUse"><path d="M0 5 5 0" stroke="#1d3a5a" stroke-opacity=".12" stroke-width="1"/></pattern>
+    <radialGradient id="fade" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff" stop-opacity=".28"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+  </defs>
+  <path d="M108 34h184l4 40 56 396H218l-18-284-18 284H48l56-396z" fill="#8fb0d0" stroke="#000" stroke-opacity=".18" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M108 34h184l4 40 56 396H218l-18-284-18 284H48l56-396z" fill="url(#denim)"/>
+  <ellipse cx="128" cy="250" rx="44" ry="90" fill="url(#fade)"/>
+  <ellipse cx="272" cy="250" rx="44" ry="90" fill="url(#fade)"/>
+  <path d="M108 34h184l2 24H106z" fill="#000" opacity=".1"/>
+  <g fill="#7a9cc0"><rect x="130" y="30" width="8" height="30" rx="2"/><rect x="196" y="30" width="8" height="30" rx="2"/><rect x="262" y="30" width="8" height="30" rx="2"/></g>
+  <circle cx="200" cy="46" r="6" fill="#c8a45c"/>
+  <path d="M190 58v92c0 14 8 22 16 26M112 66c28 14 40 34 42 54M288 66c-28 14-40 34-42 54" fill="none" stroke="#e8c37a" stroke-opacity=".8" stroke-width="1.6" stroke-dasharray="4 3"/>
+  <path d="M200 186 182 470M200 186l18 284" fill="none" stroke="#000" stroke-opacity=".12" stroke-width="2"/>
+  <path d="M50 456h132M218 456h132" fill="none" stroke="#e8c37a" stroke-opacity=".7" stroke-width="1.6" stroke-dasharray="4 3"/>
+  <path d="M296 74l56 396h-40l-30-380z" fill="#000" opacity=".07"/>
+</svg>

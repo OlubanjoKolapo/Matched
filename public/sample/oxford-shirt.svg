@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+  <defs>
+    <pattern id="ox" width="4" height="4" patternUnits="userSpaceOnUse"><path d="M0 0h2v2H0z" fill="#fff" opacity=".12"/></pattern>
+  </defs>
+  <path d="M156 70h88l78 28c18 6 28 22 32 42l28 260-46 10-30-190v232c-66 10-146 10-212 0V220l-30 190-46-10 28-260c4-20 14-36 32-42z" fill="#a9c4e2" stroke="#000" stroke-opacity=".16" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M156 70h88l78 28c18 6 28 22 32 42l28 260-46 10-30-190v232c-66 10-146 10-212 0V220l-30 190-46-10 28-260c4-20 14-36 32-42z" fill="url(#ox)"/>
+  <path d="M196 112h8v344h-8z" fill="#000" opacity=".06"/>
+  <path d="M156 70l44 42-30 18-24-48zM244 70l-44 42 30 18 24-48z" fill="#b9d0ea" stroke="#000" stroke-opacity=".18" stroke-width="2" stroke-linejoin="round"/>
+  <g fill="#f4f6f8" stroke="#000" stroke-opacity=".2"><circle cx="200" cy="150" r="4"/><circle cx="200" cy="205" r="4"/><circle cx="200" cy="260" r="4"/><circle cx="200" cy="315" r="4"/><circle cx="200" cy="370" r="4"/><circle cx="200" cy="425" r="4"/></g>
+  <rect x="234" y="170" width="44" height="50" rx="3" fill="none" stroke="#000" stroke-opacity=".18" stroke-width="2"/>
+  <path d="M22 372l46 10-4 28-46-10zM378 372l-46 10 4 28 46-10z" fill="#000" opacity=".08"/>
+  <path d="M306 220v232c-14 2-30 4-46 5l6-236z" fill="#000" opacity=".06"/>
+</svg>

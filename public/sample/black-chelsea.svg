@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+  <defs>
+    <pattern id="elastic" width="6" height="10" patternUnits="userSpaceOnUse"><path d="M3 0v10" stroke="#fff" stroke-opacity=".1" stroke-width="1.5"/></pattern>
+  </defs>
+  <path d="M78 152c-6-26 22-34 24-2" fill="none" stroke="#3a3a3a" stroke-width="7" stroke-linecap="round"/>
+  <path d="M74 150h116l4 122c46 8 110 20 154 38 20 8 26 24 20 38H64c-6-48-2-128 10-198z" fill="#1e1e1e" stroke="#fff" stroke-opacity=".1" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M150 160c-10 40-10 80 10 110h30l-2-110z" fill="#3a3a3a"/>
+  <path d="M150 160c-10 40-10 80 10 110h30l-2-110z" fill="url(#elastic)"/>
+  <path d="M74 150h116" stroke="#fff" stroke-opacity=".12" stroke-width="3"/>
+  <ellipse cx="320" cy="318" rx="34" ry="8" fill="#fff" opacity=".1"/>
+  <path d="M96 170c-6 50-6 110 0 170" fill="none" stroke="#fff" stroke-opacity=".06" stroke-width="10"/>
+  <path d="M60 346h310c2 12-4 20-16 22H68z" fill="#111"/>
+  <path d="M62 346h58v30H66z" fill="#0a0a0a"/>
+</svg>
