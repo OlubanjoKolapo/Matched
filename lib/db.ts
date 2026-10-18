@@ -36,7 +36,7 @@ export const DEFAULT_PROFILE: Profile = {
   track: 'menswear',
   units: 'metric',
   goals: [],
-  avatar: { skinTone: 'tone-5', hair: 'short-crop', hairColor: 'espresso', build: 'average' },
+  avatar: { skinTone: 'tone-5', hair: 'crop', hairColor: 'espresso', build: 'average', frame: 'menswear' },
   lessonsRead: [],
   streak: { count: 0, lastDay: '' },
 };

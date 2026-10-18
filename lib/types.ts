@@ -105,11 +105,16 @@ export type ItemTags = Pick<
   | 'formality'
 >;
 
+export const FRAMES = ['menswear', 'womenswear'] as const;
+/** Which cut the figure is drawn in. Follows the style track; never asks about gender. */
+export type Frame = (typeof FRAMES)[number];
+
 export interface AvatarConfig {
   skinTone: string;
   hair: string;
   hairColor: string;
   build: Build;
+  frame: Frame;
 }
 
 export interface Profile {

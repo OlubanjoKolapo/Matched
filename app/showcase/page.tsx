@@ -60,6 +60,9 @@ export default function ShowcasePage() {
         <Wordmark />
         <div className="flex items-center gap-2">
           <ThemeToggle />
+          <ButtonLink href="/showcase/avatar" variant="ghost" size="sm">
+            Avatar lab
+          </ButtonLink>
           <ButtonLink href="/" variant="ghost" size="sm">
             <Icon name="arrow-left" className="size-4" />
             Back to app
