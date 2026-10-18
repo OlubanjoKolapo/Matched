@@ -1,10 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
-  <path d="M44 330c0-26 18-44 52-50l64-12c16-16 40-24 62-22 36 4 78 24 122 44 22 10 28 28 24 44H44z" fill="#f5f5f2" stroke="#000" stroke-opacity=".18" stroke-width="2" stroke-linejoin="round"/>
-  <path d="M44 300c-4-16 2-26 16-28l6 28z" fill="#dcd8ce"/>
-  <path d="M120 302c50-4 110 0 160 12" fill="none" stroke="#000" stroke-opacity=".1" stroke-width="2"/>
-  <path d="M168 268c30-6 66-2 92 10" fill="none" stroke="#000" stroke-opacity=".14" stroke-width="2"/>
-  <g fill="none" stroke="#c9c4b8" stroke-width="3" stroke-linecap="round"><path d="M180 262l10 14M198 258l8 15M216 257l6 16M234 259l4 16"/></g>
-  <path d="M300 290c20 10 40 22 50 40" fill="none" stroke="#000" stroke-opacity=".14" stroke-width="1.5" stroke-dasharray="4 3"/>
-  <path d="M38 330h334c4 14-2 26-16 28H52c-12-2-18-14-14-28z" fill="#e6e2d8" stroke="#000" stroke-opacity=".18" stroke-width="2"/>
-  <path d="M40 342h330" stroke="#000" stroke-opacity=".08" stroke-width="2"/>
+  <defs>
+    <g id="s">
+      <path d="M28 334c-4-34 0-72 12-90 26-8 60-4 80 8 10-22 20-36 46-40 40 10 90 32 126 54 38 16 76 32 82 54v14z" fill="#f5f5f2" stroke="#000" stroke-opacity=".2" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M44 248c26-8 56-4 74 6-18-2-48-1-72 2z" fill="#000" opacity=".18"/>
+      <path d="M28 300c-2-20 2-38 12-54l14 2c-8 18-10 36-8 56z" fill="#d9d5ca"/>
+      <path d="M60 300c60-14 140-10 240 6" fill="none" stroke="#000" stroke-opacity=".12" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <path d="M300 298c30 4 56 14 66 28" fill="none" stroke="#000" stroke-opacity=".14" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <g fill="#fff" stroke="#000" stroke-opacity=".25"><circle cx="184" cy="221" r="3"/><circle cx="206" cy="230" r="3"/><circle cx="228" cy="240" r="3"/><circle cx="250" cy="250" r="3"/><circle cx="272" cy="260" r="3"/></g>
+      <path d="M178 228l14-14M200 237l14-14M222 247l14-14M244 257l14-14" stroke="#cfcabd" stroke-width="3" stroke-linecap="round"/>
+      <path d="M22 330h358c4 14-2 26-16 28H36c-12-2-18-14-14-28z" fill="#e7e3d9" stroke="#000" stroke-opacity=".2" stroke-width="2"/>
+      <path d="M26 340h350" stroke="#000" stroke-opacity=".1" stroke-width="1.5" stroke-dasharray="3 3"/>
+    </g>
+  </defs>
+  <g transform="translate(0 30)">
+    <use href="#s" transform="translate(-6 -64)" style="filter:brightness(.88)"/>
+    <use href="#s"/>
+  </g>
 </svg>

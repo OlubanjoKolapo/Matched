@@ -1,11 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
-  <path d="M48 300c0-30 22-48 56-54l60-14c18-18 46-26 70-22 38 6 78 28 116 52 20 12 26 30 22 44H48z" fill="#9a9a9a" stroke="#000" stroke-opacity=".2" stroke-width="2" stroke-linejoin="round"/>
-  <path d="M164 232c18-18 46-26 70-22 20 3 40 10 60 20-40 4-90 6-130 2z" fill="#b8b8b8"/>
-  <path d="M48 300c12-30 52-38 92-38l40 44z" fill="#7e7e7e"/>
-  <path d="M250 262c34 2 70 16 100 38l10 6H260z" fill="#7e7e7e"/>
-  <path d="M110 286c40-6 90-4 130 8" fill="none" stroke="#f5f5f2" stroke-opacity=".6" stroke-width="3"/>
-  <g fill="none" stroke="#efefef" stroke-width="3" stroke-linecap="round"><path d="M182 228l10 14M200 224l8 15M218 222l6 16M236 224l4 16"/></g>
-  <path d="M40 300h336c8 22 4 50-14 64-32 12-62 4-92 8-40 6-70-6-110 0-40 6-80-2-106-8-18-8-22-38-14-64z" fill="#edebe6" stroke="#000" stroke-opacity=".18" stroke-width="2"/>
-  <path d="M44 330c56-12 116 10 176-4 50-10 100 12 154-2" fill="none" stroke="#000" stroke-opacity=".15" stroke-width="2"/>
-  <path d="M60 352c40 8 80 10 120 6" fill="none" stroke="#000" stroke-opacity=".08" stroke-width="2"/>
+  <defs>
+    <g id="s">
+      <path d="M34 312c-4-34 0-72 14-90 28-10 60-6 80 8 10-24 22-38 48-42 44 10 94 34 128 58 36 16 68 34 72 58v10z" fill="#9a9a9a" stroke="#000" stroke-opacity=".22" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M120 240c50-14 110 0 140 30l-60 30c-30-20-60-34-90-38z" fill="#b9b9b9"/>
+      <path d="M240 300c40-8 90-10 136 4v10H230z" fill="#7a7a7a"/>
+      <path d="M34 312c-4-32 0-62 14-82l42 20c-10 26-6 46 6 62z" fill="#7a7a7a"/>
+      <path d="M50 226c26-8 56-4 74 6-18-2-46-1-70 2z" fill="#000" opacity=".22"/>
+      <path d="M112 278c50-8 100-4 150 14" fill="none" stroke="#f5f5f2" stroke-opacity=".7" stroke-width="4" stroke-linecap="round"/>
+      <path d="M186 198l14-14M208 207l14-14M230 217l14-14M252 228l14-14" stroke="#ededed" stroke-width="3" stroke-linecap="round"/>
+      <path d="M26 306h354c10 24 6 54-14 66-36 12-76 2-110 8-36 6-66-6-104 0-42 6-82 0-108-8-20-10-26-40-18-66z" fill="#efede8" stroke="#000" stroke-opacity=".2" stroke-width="2"/>
+      <path d="M32 336c48-14 98 12 158-4 50-14 110 14 190-2" fill="none" stroke="#000" stroke-opacity=".16" stroke-width="2"/>
+      <path d="M44 372c26 8 66 14 108 8 38-6 68 6 104 0 34-6 74 4 110-8l-4 8c-36 12-76 4-108 8-36 6-66-6-104 0-42 6-82 0-106-8z" fill="#000" opacity=".12"/>
+    </g>
+  </defs>
+  <g transform="translate(0 10)">
+    <use href="#s" transform="translate(-6 -70)" style="filter:brightness(.86)"/>
+    <use href="#s"/>
+  </g>
 </svg>
