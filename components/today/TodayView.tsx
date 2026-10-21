@@ -6,6 +6,7 @@ import { useMemo, useState } from 'react';
 import { Avatar } from '@/components/avatar/Avatar';
 import { FlatLay } from '@/components/avatar/FlatLay';
 import { ReasonList } from '@/components/match/ReasonList';
+import { ShareButton } from '@/components/share/ShareButton';
 import { ItemImage } from '@/components/wardrobe/ItemImage';
 import { Button, ButtonLink } from '@/components/ui/Button';
 import { EmptyState } from '@/components/ui/EmptyState';
@@ -28,6 +29,7 @@ import { loadSampleWardrobe } from '@/lib/sample/load';
 import type { Item } from '@/lib/types';
 import { VERDICT_LABEL } from '@/lib/verdict';
 import { TodayDate } from './TodayDate';
+import { TodayJournal } from './TodayJournal';
 
 function Piece({ item }: { item: Item }) {
   const color = colorInfo(item, isDenim(item));
@@ -116,6 +118,9 @@ export function TodayView() {
             </>
           }
         />
+        <div className="pt-10">
+          <TodayJournal profile={profile} wardrobe={wardrobe} />
+        </div>
       </>
     );
   }
@@ -201,6 +206,15 @@ export function TodayView() {
               <ButtonLink href={`/match?items=${fit.items.map((i) => i.id).join(',')}`} size="lg" variant="ghost">
                 Open in Match
               </ButtonLink>
+              <ShareButton
+                key={key}
+                outfit={fit.items}
+                result={fit.result}
+                mode={mode}
+                avatar={profile.avatar}
+                heightCm={profile.heightCm}
+                imageFor={(item) => imageUrl(item as Item)}
+              />
             </div>
             {worn ? (
               <p className="text-caption text-ink-muted">These pieces rest for a few days, so tomorrow brings something new.</p>
@@ -208,6 +222,7 @@ export function TodayView() {
           </motion.div>
         </AnimatePresence>
       </div>
+      <TodayJournal profile={profile} wardrobe={wardrobe} />
     </>
   );
 }

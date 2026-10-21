@@ -87,3 +87,11 @@ export function significantFamilies(item: ItemTags): ColorFamilyId[] {
     .filter((c) => c.share >= MAIN_COLOR_MIN_SHARE)
     .map((c) => (isFamily(c.family) ? c.family : hexToFamily(c.hex)));
 }
+
+/** Mid-wash blue for the denim family, which has no hex anchors of its own. */
+export const DENIM_DISPLAY_HEX = '#4d6b8f';
+
+/** A display hex for a color family: its first anchor, or the denim wash. */
+export function familyHex(family: ColorFamilyId): string {
+  return family === 'denim' ? DENIM_DISPLAY_HEX : (COLOR_FAMILIES[family].anchors[0] ?? '#888888');
+}

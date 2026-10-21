@@ -1,0 +1,164 @@
+[
+  {
+    "id": "balance-volume",
+    "title": "Balance the volume",
+    "rule": "If one half is roomy, keep the other half clean.",
+    "body": "A relaxed knit over slim jeans, or a neat tee over wide trousers. One loose half and one fitted half reads as deliberate. Two loose halves can swamp the frame.",
+    "kind": "proportion",
+    "tracks": [],
+    "bands": [],
+    "goals": ["match"],
+    "ruleIds": ["proportion.volume-on-top", "proportion.volume-below"],
+    "look": [
+      { "category": "top", "subtype": "crewneck sweater", "fit": "relaxed", "color": "cream", "material": "knit", "formality": 3 },
+      { "category": "bottom", "subtype": "jeans", "fit": "slim", "color": "black", "material": "denim", "formality": 2 },
+      { "category": "shoes", "subtype": "chelsea boot", "shoeProfile": "boot", "color": "black", "formality": 4 }
+    ]
+  },
+  {
+    "id": "wide-legs-weight",
+    "title": "Wide legs need a shoe with weight",
+    "rule": "A slim shoe gets swallowed by the extra fabric. Go chunkier.",
+    "body": "Wide and baggy trousers pool around the foot. A chunky sneaker, a skate shoe or a boot holds its own against that volume, so the outfit stays balanced from top to bottom.",
+    "kind": "shoes",
+    "tracks": [],
+    "bands": [],
+    "goals": [],
+    "ruleIds": ["shoes.weight-for-volume"],
+    "look": [
+      { "category": "top", "subtype": "t-shirt", "fit": "boxy", "length": "cropped", "color": "black", "formality": 2 },
+      { "category": "bottom", "subtype": "jeans", "fit": "wide", "rise": "high", "color": "denim", "material": "denim", "formality": 2 },
+      { "category": "shoes", "subtype": "chunky sneaker", "shoeProfile": "chunky", "color": "grey", "formality": 2 }
+    ]
+  },
+  {
+    "id": "slim-legs-sleek-shoes",
+    "title": "Slim legs, sleek shoes",
+    "rule": "A narrow trouser wants a low, clean shoe.",
+    "body": "Loafers, minimal leather sneakers and Chelsea boots follow the line of a slim or straight leg. A very chunky sole at the end of a skinny leg looks heavy.",
+    "kind": "shoes",
+    "tracks": [],
+    "bands": [],
+    "goals": [],
+    "ruleIds": ["shoes.clean-line"],
+    "look": [
+      { "category": "top", "subtype": "oxford shirt", "fit": "regular", "color": "light-blue", "formality": 3 },
+      { "category": "bottom", "subtype": "chinos", "fit": "slim", "color": "navy", "formality": 3 },
+      { "category": "shoes", "subtype": "penny loafer", "shoeProfile": "low", "color": "brown", "material": "suede", "formality": 4 }
+    ]
+  },
+  {
+    "id": "neutrals-anything",
+    "title": "Neutrals go with everything",
+    "rule": "Black, white, grey, navy, cream and beige never fight.",
+    "body": "Build most outfits on neutrals and nothing competes, so the shapes do the talking. It's the easiest way to make a wardrobe where everything pairs with everything.",
+    "kind": "color",
+    "tracks": [],
+    "bands": [],
+    "goals": ["match"],
+    "ruleIds": ["color.all-neutral"],
+    "look": [
+      { "category": "top", "subtype": "t-shirt", "fit": "regular", "color": "white", "formality": 2 },
+      { "category": "bottom", "subtype": "chinos", "fit": "slim", "color": "navy", "formality": 3 },
+      { "category": "shoes", "subtype": "leather sneaker", "shoeProfile": "low", "color": "white", "formality": 3 }
+    ]
+  },
+  {
+    "id": "one-statement",
+    "title": "One bold color at a time",
+    "rule": "Let one piece be loud and keep the rest quiet.",
+    "body": "A green hoodie or a red knit looks confident on a neutral base. Two strong colors at once start to argue. Pick the one you love most today and let it lead.",
+    "kind": "color",
+    "tracks": [],
+    "bands": [],
+    "goals": ["match"],
+    "ruleIds": ["color.one-statement"],
+    "look": [
+      { "category": "top", "subtype": "hoodie", "fit": "oversized", "color": "green", "formality": 2 },
+      { "category": "bottom", "subtype": "chinos", "fit": "slim", "color": "navy", "formality": 3 },
+      { "category": "shoes", "subtype": "leather sneaker", "shoeProfile": "low", "color": "white", "formality": 3 }
+    ]
+  },
+  {
+    "id": "earth-tones",
+    "title": "Earth tones get along",
+    "rule": "Olive, brown, rust and tan sit naturally with denim, cream and white.",
+    "body": "Earthy colors share a warmth, so they pair with each other and with the softer neutrals. Olive with cream, brown with denim: it looks considered without trying.",
+    "kind": "color",
+    "tracks": [],
+    "bands": [],
+    "goals": [],
+    "ruleIds": ["color.earth-tones"],
+    "look": [
+      { "category": "top", "subtype": "t-shirt", "fit": "regular", "color": "cream", "formality": 2 },
+      { "category": "outerwear", "subtype": "overshirt", "fit": "relaxed", "color": "olive", "formality": 3 },
+      { "category": "bottom", "subtype": "jeans", "fit": "straight", "color": "denim", "material": "denim", "formality": 2 },
+      { "category": "shoes", "subtype": "penny loafer", "shoeProfile": "low", "color": "brown", "formality": 4 }
+    ]
+  },
+  {
+    "id": "one-pattern",
+    "title": "One pattern per outfit",
+    "rule": "Two patterns compete. Keep one and make the rest plain.",
+    "body": "A striped shirt with plain trousers is easy on the eye. Stripes with checks need real skill to pull off. When in doubt, one pattern and solids around it.",
+    "kind": "color",
+    "tracks": [],
+    "bands": [],
+    "goals": [],
+    "ruleIds": ["color.one-pattern"],
+    "look": [
+      { "category": "top", "subtype": "shirt", "fit": "regular", "color": "light-blue", "pattern": "stripe", "formality": 3 },
+      { "category": "bottom", "subtype": "chinos", "fit": "straight", "color": "beige", "formality": 3 },
+      { "category": "shoes", "subtype": "penny loafer", "shoeProfile": "low", "color": "brown", "formality": 4 }
+    ]
+  },
+  {
+    "id": "denim-on-denim",
+    "title": "Denim on denim: contrast the washes",
+    "rule": "Two denims work when one is clearly lighter than the other.",
+    "body": "A light jacket over dark jeans looks intentional. Two pieces in nearly the same wash read like an accidental suit. Make the difference obvious.",
+    "kind": "color",
+    "tracks": [],
+    "bands": [],
+    "goals": [],
+    "ruleIds": ["denim.contrast"],
+    "look": [
+      { "category": "top", "subtype": "t-shirt", "fit": "regular", "color": "white", "formality": 2 },
+      { "category": "outerwear", "subtype": "denim jacket", "fit": "regular", "color": "light-blue", "material": "denim", "formality": 2 },
+      { "category": "bottom", "subtype": "jeans", "fit": "slim", "color": "navy", "material": "denim", "formality": 2 },
+      { "category": "shoes", "subtype": "leather sneaker", "shoeProfile": "low", "color": "white", "formality": 3 }
+    ]
+  },
+  {
+    "id": "brown-and-black",
+    "title": "Brown and black: let one be the accent",
+    "rule": "Brown and black at the same weight fight. Keep one small.",
+    "body": "A brown knit with black trousers splits the outfit in two. Brown loafers with black jeans work, because the shoes are a small accent. Or swap the black for navy or cream.",
+    "kind": "color",
+    "tracks": [],
+    "bands": [],
+    "goals": ["put-together"],
+    "ruleIds": ["color.earth-tones"],
+    "look": [
+      { "category": "top", "subtype": "crewneck sweater", "fit": "regular", "color": "cream", "material": "knit", "formality": 3 },
+      { "category": "bottom", "subtype": "jeans", "fit": "straight", "color": "black", "material": "denim", "formality": 2 },
+      { "category": "shoes", "subtype": "penny loafer", "shoeProfile": "low", "color": "brown", "formality": 4 }
+    ]
+  },
+  {
+    "id": "big-on-big",
+    "title": "Big on big, on purpose",
+    "rule": "Oversized top and baggy trousers only work with a strong signal.",
+    "body": "Give it a reason: a chunky shoe or a boxy, cropped top. Without one, all that fabric looks like the clothes are wearing you.",
+    "kind": "proportion",
+    "tracks": [],
+    "bands": [],
+    "goals": [],
+    "ruleIds": ["proportion.deliberate-volume"],
+    "look": [
+      { "category": "top", "subtype": "hoodie", "fit": "oversized", "color": "grey", "formality": 2 },
+      { "category": "bottom", "subtype": "jeans", "fit": "baggy", "color": "denim", "material": "denim", "formality": 2 },
+      { "category": "shoes", "subtype": "chunky sneaker", "shoeProfile": "chunky", "color": "white", "formality": 2 }
+    ]
+  }
+]

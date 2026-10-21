@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useMemo, useState } from 'react';
 import { Avatar } from '@/components/avatar/Avatar';
+import { ShareButton } from '@/components/share/ShareButton';
 import { FlatLay } from '@/components/avatar/FlatLay';
 import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
@@ -114,6 +115,19 @@ export function OutfitBuilder({ wardrobe, profile }: { wardrobe: Item[]; profile
               'Save look'
             )}
           </Button>
+          {result ? (
+            <ShareButton
+              key={key}
+              outfit={items}
+              result={result}
+              mode={mode}
+              avatar={profile.avatar}
+              heightCm={profile.heightCm}
+              imageFor={(item) => imageUrl(item as Item)}
+              variant="secondary"
+              size="md"
+            />
+          ) : null}
           <Button variant="ghost" onClick={clear} disabled={!items.length}>
             Clear
           </Button>

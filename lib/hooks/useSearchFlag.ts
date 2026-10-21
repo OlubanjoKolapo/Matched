@@ -15,3 +15,12 @@ export function useSearchParam(name: string): string | null {
     () => null,
   );
 }
+
+/** False during server render and hydration, true after. Search params are real from then on. */
+export function useHydrated(): boolean {
+  return useSyncExternalStore(
+    subscribe,
+    () => true,
+    () => false,
+  );
+}

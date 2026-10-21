@@ -1,0 +1,132 @@
+[
+  {
+    "id": "one-long-line",
+    "title": "One color, one long line",
+    "rule": "Shades of one color let the eye travel up without stopping.",
+    "body": "Black on black, navy on navy, cream on beige. A tonal outfit reads as one unbroken column, which is the quickest way to look taller.",
+    "kind": "color",
+    "tracks": [],
+    "bands": ["shorter"],
+    "goals": ["taller", "leaner"],
+    "ruleIds": ["color.tonal"],
+    "look": [
+      { "category": "top", "subtype": "t-shirt", "fit": "regular", "color": "black", "formality": 2 },
+      { "category": "bottom", "subtype": "jeans", "fit": "slim", "color": "black", "material": "denim", "formality": 2 },
+      { "category": "shoes", "subtype": "chelsea boot", "shoeProfile": "boot", "color": "black", "formality": 4 }
+    ]
+  },
+  {
+    "id": "shoes-match-trousers",
+    "title": "Match your shoes to your trousers",
+    "rule": "Same color from hem to sole makes the leg look longer.",
+    "body": "Black boots with black jeans, tan suede with stone trousers. When the shoe continues the trouser's color, there's no break where the leg ends.",
+    "kind": "color",
+    "tracks": [],
+    "bands": ["shorter"],
+    "goals": ["taller"],
+    "ruleIds": ["color.leg-line"],
+    "look": [
+      { "category": "top", "subtype": "t-shirt", "fit": "regular", "color": "white", "formality": 2 },
+      { "category": "bottom", "subtype": "jeans", "fit": "straight", "color": "black", "material": "denim", "formality": 2 },
+      { "category": "shoes", "subtype": "chelsea boot", "shoeProfile": "boot", "color": "black", "formality": 4 }
+    ]
+  },
+  {
+    "id": "raise-the-waist",
+    "title": "Raise the waistline",
+    "rule": "High-rise bottoms with a shorter or tucked top lengthen the leg.",
+    "body": "When the top ends at a high waistband, your legs appear to start higher. Try a boxy tee with high-rise jeans, or a half-tuck into high-rise trousers.",
+    "kind": "proportion",
+    "tracks": [],
+    "bands": ["shorter"],
+    "goals": ["taller"],
+    "ruleIds": ["proportion.raised-waist"],
+    "look": [
+      { "category": "top", "subtype": "t-shirt", "fit": "boxy", "length": "cropped", "color": "white", "formality": 2 },
+      { "category": "bottom", "subtype": "pleated trousers", "fit": "relaxed", "rise": "high", "color": "beige", "formality": 4 },
+      { "category": "shoes", "subtype": "penny loafer", "shoeProfile": "low", "color": "brown", "formality": 4 }
+    ]
+  },
+  {
+    "id": "lose-the-break",
+    "title": "Lose the break",
+    "rule": "Trousers that just meet the shoe, or end a touch above it, keep the line clean.",
+    "body": "Fabric piling up at the ankle shortens the leg. A slim or straight trouser with no break, or a slight crop, shows a clean finish above a low shoe.",
+    "kind": "shoes",
+    "tracks": [],
+    "bands": ["shorter"],
+    "goals": ["taller", "put-together"],
+    "ruleIds": ["shoes.clean-line"],
+    "look": [
+      { "category": "top", "subtype": "polo", "fit": "fitted", "color": "navy", "material": "knit", "formality": 3 },
+      { "category": "bottom", "subtype": "chinos", "fit": "slim", "length": "cropped", "color": "beige", "formality": 3 },
+      { "category": "shoes", "subtype": "penny loafer", "shoeProfile": "low", "color": "brown", "formality": 4 }
+    ]
+  },
+  {
+    "id": "hip-length-jackets",
+    "title": "Jackets that end at the hip",
+    "rule": "A shorter jacket shows more leg.",
+    "body": "Bombers, trucker jackets and cropped overshirts stop at the hip, so your legs keep their full length. Long coats can work too, but they cover more of the leg.",
+    "kind": "proportion",
+    "tracks": [],
+    "bands": ["shorter"],
+    "goals": ["taller"],
+    "ruleIds": ["mens.v-shape"],
+    "look": [
+      { "category": "top", "subtype": "t-shirt", "fit": "regular", "color": "white", "formality": 2 },
+      { "category": "outerwear", "subtype": "bomber jacket", "fit": "regular", "color": "navy", "formality": 2 },
+      { "category": "bottom", "subtype": "jeans", "fit": "slim", "color": "black", "material": "denim", "formality": 2 },
+      { "category": "shoes", "subtype": "leather sneaker", "shoeProfile": "low", "color": "white", "formality": 3 }
+    ]
+  },
+  {
+    "id": "draw-a-vertical-line",
+    "title": "Draw a vertical line",
+    "rule": "An open overshirt or a long placket pulls the eye up and down.",
+    "body": "Wearing an overshirt or cardigan open creates two long vertical edges down the body. It's an easy way to add height and a second texture at the same time.",
+    "kind": "proportion",
+    "tracks": [],
+    "bands": ["shorter", "average"],
+    "goals": ["taller", "leaner"],
+    "ruleIds": ["mens.open-layer"],
+    "look": [
+      { "category": "top", "subtype": "t-shirt", "fit": "regular", "color": "white", "formality": 2 },
+      { "category": "outerwear", "subtype": "overshirt", "fit": "relaxed", "color": "olive", "formality": 3 },
+      { "category": "bottom", "subtype": "jeans", "fit": "straight", "color": "black", "material": "denim", "formality": 2 },
+      { "category": "shoes", "subtype": "chelsea boot", "shoeProfile": "boot", "color": "black", "formality": 4 }
+    ]
+  },
+  {
+    "id": "mind-the-oversized-hem",
+    "title": "Mind the hem of oversized tops",
+    "rule": "A long, roomy top hides where your legs start.",
+    "body": "Oversized is fine; overlong is the problem. Keep the hem around the hip, or half-tuck the front, and pair it with something slimmer below.",
+    "kind": "proportion",
+    "tracks": [],
+    "bands": ["shorter"],
+    "goals": ["taller"],
+    "ruleIds": ["proportion.volume-on-top"],
+    "look": [
+      { "category": "top", "subtype": "hoodie", "fit": "oversized", "color": "grey", "formality": 2 },
+      { "category": "bottom", "subtype": "jeans", "fit": "slim", "color": "black", "material": "denim", "formality": 2 },
+      { "category": "shoes", "subtype": "leather sneaker", "shoeProfile": "low", "color": "white", "formality": 3 }
+    ]
+  },
+  {
+    "id": "skip-contrast-belts",
+    "title": "Skip the wide contrast belt",
+    "rule": "A bold belt across the middle cuts you in half.",
+    "body": "A thin belt in the same tone as your trousers keeps the line going. Better still, let a tonal outfit carry straight through the waist.",
+    "kind": "color",
+    "tracks": [],
+    "bands": ["shorter"],
+    "goals": ["taller"],
+    "ruleIds": ["color.tonal"],
+    "look": [
+      { "category": "top", "subtype": "crewneck sweater", "fit": "regular", "color": "beige", "material": "knit", "formality": 3 },
+      { "category": "bottom", "subtype": "trousers", "fit": "straight", "color": "tan", "formality": 4 },
+      { "category": "shoes", "subtype": "penny loafer", "shoeProfile": "low", "color": "brown", "formality": 4 }
+    ]
+  }
+]

@@ -1,0 +1,66 @@
+[
+  {
+    "id": "same-dressiness",
+    "title": "Keep the dressiness consistent",
+    "rule": "Pieces at the same level of formality look intentional.",
+    "body": "Polish isn't about dressing up; it's about agreement. A casual outfit where everything is casual looks more put-together than a suit jacket over track pants.",
+    "kind": "formality",
+    "tracks": [],
+    "bands": [],
+    "goals": ["put-together"],
+    "ruleIds": ["formality.consistent"],
+    "look": [
+      { "category": "top", "subtype": "oxford shirt", "fit": "regular", "color": "light-blue", "formality": 3 },
+      { "category": "bottom", "subtype": "chinos", "fit": "slim", "color": "beige", "formality": 3 },
+      { "category": "shoes", "subtype": "leather sneaker", "shoeProfile": "low", "color": "white", "formality": 3 }
+    ]
+  },
+  {
+    "id": "polished-shoes",
+    "title": "Polished shoes do the heavy lifting",
+    "rule": "Tailored trousers want loafers, derbies or a clean leather sneaker.",
+    "body": "Shoes set the register of an outfit. Swap a running shoe for a loafer and the same trousers suddenly look deliberate and sharp.",
+    "kind": "shoes",
+    "tracks": ["menswear"],
+    "bands": [],
+    "goals": ["put-together"],
+    "ruleIds": ["mens.tailoring-polish"],
+    "look": [
+      { "category": "top", "subtype": "polo", "fit": "regular", "color": "cream", "material": "knit", "formality": 3 },
+      { "category": "bottom", "subtype": "pleated trousers", "fit": "straight", "color": "charcoal", "formality": 4 },
+      { "category": "shoes", "subtype": "penny loafer", "shoeProfile": "low", "color": "brown", "formality": 4 }
+    ]
+  },
+  {
+    "id": "bridge-smart-casual",
+    "title": "Bridge smart and casual",
+    "rule": "One in-between piece lets dressy and casual meet halfway.",
+    "body": "Loafers with jeans, a knit with tailored trousers, a leather sneaker with a suit trouser. The bridge piece tells people the mix is on purpose.",
+    "kind": "formality",
+    "tracks": [],
+    "bands": [],
+    "goals": ["put-together"],
+    "ruleIds": ["formality.smart-casual", "formality.bridged"],
+    "look": [
+      { "category": "top", "subtype": "t-shirt", "fit": "regular", "color": "white", "formality": 2 },
+      { "category": "bottom", "subtype": "suit trousers", "fit": "straight", "color": "navy", "formality": 5 },
+      { "category": "shoes", "subtype": "leather sneaker", "shoeProfile": "low", "color": "white", "formality": 3 }
+    ]
+  },
+  {
+    "id": "runners-for-running",
+    "title": "Keep runners for running",
+    "rule": "Running shoes pull tailoring toward the gym.",
+    "body": "Technical trainers are built for sport, and they look it. With anything tailored, reach for a loafer, a derby or a minimal leather sneaker instead.",
+    "kind": "shoes",
+    "tracks": ["menswear"],
+    "bands": [],
+    "goals": ["put-together"],
+    "ruleIds": ["mens.tailoring-polish"],
+    "look": [
+      { "category": "top", "subtype": "oxford shirt", "fit": "regular", "color": "white", "formality": 3 },
+      { "category": "bottom", "subtype": "trousers", "fit": "straight", "color": "grey", "formality": 4 },
+      { "category": "shoes", "subtype": "derby", "shoeProfile": "low", "color": "black", "formality": 4 }
+    ]
+  }
+]

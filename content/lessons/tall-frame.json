@@ -1,0 +1,68 @@
+[
+  {
+    "id": "carry-volume",
+    "title": "You can carry volume",
+    "rule": "On a long frame, wide trousers and roomy layers sit in proportion.",
+    "body": "Extra height gives volume somewhere to go. Wide-leg trousers, oversized outerwear and relaxed knits look effortless rather than overwhelming.",
+    "kind": "proportion",
+    "tracks": [],
+    "bands": ["taller"],
+    "goals": [],
+    "ruleIds": ["shoes.weight-for-volume", "proportion.volume-below"],
+    "look": [
+      { "category": "top", "subtype": "t-shirt", "fit": "fitted", "color": "white", "formality": 2 },
+      { "category": "bottom", "subtype": "pleated trousers", "fit": "wide", "rise": "high", "color": "charcoal", "formality": 4 },
+      { "category": "shoes", "subtype": "chelsea boot", "shoeProfile": "boot", "color": "black", "formality": 4 }
+    ]
+  },
+  {
+    "id": "break-the-line",
+    "title": "Break the line with contrast",
+    "rule": "A light top over darker trousers adds structure to a long frame.",
+    "body": "Where shorter frames gain from one long line, a tall frame looks sharper split into two. Contrast between top and bottom gives the outfit shape.",
+    "kind": "color",
+    "tracks": [],
+    "bands": ["taller"],
+    "goals": [],
+    "ruleIds": ["color.all-neutral", "color.dark-base"],
+    "look": [
+      { "category": "top", "subtype": "crewneck sweater", "fit": "relaxed", "color": "cream", "material": "knit", "formality": 3 },
+      { "category": "bottom", "subtype": "jeans", "fit": "straight", "color": "black", "material": "denim", "formality": 2 },
+      { "category": "shoes", "subtype": "leather sneaker", "shoeProfile": "low", "color": "white", "formality": 3 }
+    ]
+  },
+  {
+    "id": "longer-coats",
+    "title": "Longer coats sit right",
+    "rule": "A knee-length coat is in proportion on a tall frame.",
+    "body": "Long coats can swamp a shorter frame, but on you they hang the way they were designed to. Keep what's underneath simple and let the coat lead.",
+    "kind": "proportion",
+    "tracks": [],
+    "bands": ["taller"],
+    "goals": ["put-together"],
+    "ruleIds": ["mens.v-shape", "formality.consistent"],
+    "look": [
+      { "category": "top", "subtype": "crewneck sweater", "fit": "regular", "color": "charcoal", "material": "knit", "formality": 3 },
+      { "category": "outerwear", "subtype": "coat", "fit": "regular", "color": "tan", "formality": 4 },
+      { "category": "bottom", "subtype": "trousers", "fit": "straight", "color": "charcoal", "formality": 4 },
+      { "category": "shoes", "subtype": "chelsea boot", "shoeProfile": "boot", "color": "black", "formality": 4 }
+    ]
+  },
+  {
+    "id": "layer-for-interest",
+    "title": "Layer for interest",
+    "rule": "On a long frame, layers add depth instead of bulk.",
+    "body": "A tee, an open overshirt and a jacket would crowd a smaller frame. On yours they add texture and break up the height in a good way.",
+    "kind": "proportion",
+    "tracks": [],
+    "bands": ["taller"],
+    "goals": [],
+    "ruleIds": ["mens.open-layer"],
+    "look": [
+      { "category": "top", "subtype": "hoodie", "fit": "regular", "color": "grey", "formality": 2 },
+      { "category": "outerwear", "subtype": "overshirt", "fit": "relaxed", "color": "olive", "formality": 3 },
+      { "category": "bottom", "subtype": "jeans", "fit": "straight", "color": "denim", "material": "denim", "formality": 2 },
+      { "category": "shoes", "subtype": "chunky sneaker", "shoeProfile": "chunky", "color": "white", "formality": 2 }
+    ]
+  }
+]

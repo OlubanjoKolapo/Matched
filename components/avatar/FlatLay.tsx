@@ -24,6 +24,11 @@ const SPOTS: Record<Category, { left: number; top: number; width: number; rotate
 /** Without outerwear, the top takes the lead spot. */
 const TOP_ALONE = { left: 18, top: 3, width: 54, rotate: -3, z: 2 };
 
+/** Where a piece sits in the composition, in percent of the frame. */
+export function spotFor(category: Category, hasOuter: boolean) {
+  return category === 'top' && !hasOuter ? TOP_ALONE : SPOTS[category];
+}
+
 export function FlatLay({ pieces, className }: { pieces: FlatLayPiece[]; className?: string }) {
   const hasOuter = pieces.some((p) => p.item.category === 'outerwear');
   return (
@@ -33,7 +38,7 @@ export function FlatLay({ pieces, className }: { pieces: FlatLayPiece[]; classNa
       aria-label="Flat-lay of the outfit"
     >
       {pieces.map(({ item, src }) => {
-        const spot = item.category === 'top' && !hasOuter ? TOP_ALONE : SPOTS[item.category];
+        const spot = spotFor(item.category, hasOuter);
         return (
           // Cutouts are local object URLs or static SVGs; next/image adds nothing here.
           // eslint-disable-next-line @next/next/no-img-element

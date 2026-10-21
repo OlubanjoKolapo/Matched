@@ -1,0 +1,80 @@
+[
+  {
+    "id": "midi-grounded",
+    "title": "Midi hems love flats and boots",
+    "rule": "A midi length stays easy and grounded with a flat shoe or a boot.",
+    "body": "Ballet flats, loafers or a Chelsea boot let a midi skirt or dress swing naturally. It's relaxed, and it works from day to evening.",
+    "kind": "shoes",
+    "tracks": ["womenswear"],
+    "bands": [],
+    "goals": [],
+    "ruleIds": ["womens.midi-grounded"],
+    "look": [
+      { "category": "top", "subtype": "t-shirt", "fit": "fitted", "color": "white", "formality": 2 },
+      { "category": "bottom", "subtype": "midi skirt", "rise": "high", "color": "olive", "formality": 3 },
+      { "category": "shoes", "subtype": "ballet flat", "shoeProfile": "low", "color": "black", "formality": 3 }
+    ]
+  },
+  {
+    "id": "mini-weight",
+    "title": "Give a mini some weight",
+    "rule": "Chunky shoes or boots balance a short hem.",
+    "body": "A mini skirt or dress can feel slight on its own. A chunky sneaker or a boot adds weight at the bottom, so the whole outfit feels grounded.",
+    "kind": "shoes",
+    "tracks": ["womenswear"],
+    "bands": [],
+    "goals": [],
+    "ruleIds": ["womens.mini-weight"],
+    "look": [
+      { "category": "top", "subtype": "t-shirt", "fit": "boxy", "color": "black", "formality": 2 },
+      { "category": "bottom", "subtype": "mini skirt", "rise": "high", "color": "denim", "material": "denim", "formality": 2 },
+      { "category": "shoes", "subtype": "chelsea boot", "shoeProfile": "boot", "color": "black", "formality": 4 }
+    ]
+  },
+  {
+    "id": "heels-dressy",
+    "title": "Heels with the dressier pieces",
+    "rule": "Heels belong with pieces at their level, not with joggers.",
+    "body": "A heel lifts a slip dress or tailored trousers. With very casual pieces it looks out of place; there, flats, boots or a clean sneaker fit better.",
+    "kind": "formality",
+    "tracks": ["womenswear"],
+    "bands": [],
+    "goals": ["put-together"],
+    "ruleIds": ["womens.heels-dressy"],
+    "look": [
+      { "category": "onepiece", "subtype": "slip dress", "fit": "regular", "color": "burgundy", "formality": 4 },
+      { "category": "shoes", "subtype": "heeled pump", "shoeProfile": "heel", "color": "black", "formality": 4 }
+    ]
+  },
+  {
+    "id": "dress-is-an-outfit",
+    "title": "A dress is a whole outfit",
+    "rule": "With a dress, the shoes set the mood.",
+    "body": "Because the dress does the work of two pieces, the shoe decides where it's going: flats for daytime, boots for weather, heels for evening.",
+    "kind": "formality",
+    "tracks": ["womenswear"],
+    "bands": [],
+    "goals": ["match"],
+    "ruleIds": ["formality.consistent", "womens.midi-grounded"],
+    "look": [
+      { "category": "onepiece", "subtype": "midi dress", "fit": "regular", "color": "navy", "formality": 3 },
+      { "category": "shoes", "subtype": "ballet flat", "shoeProfile": "low", "color": "black", "formality": 3 }
+    ]
+  },
+  {
+    "id": "crop-and-high-rise",
+    "title": "Crop tops want a high rise",
+    "rule": "A cropped top over high-rise bottoms raises the waist and lengthens the leg.",
+    "body": "With low-rise bottoms, a crop leaves a gap that cuts the body in half. A high rise closes it, so the proportions look intentional and legs look longer.",
+    "kind": "proportion",
+    "tracks": ["womenswear"],
+    "bands": [],
+    "goals": ["taller"],
+    "ruleIds": ["proportion.raised-waist"],
+    "look": [
+      { "category": "top", "subtype": "crop top", "fit": "cropped", "color": "cream", "formality": 2 },
+      { "category": "bottom", "subtype": "jeans", "fit": "wide", "rise": "high", "color": "denim", "material": "denim", "formality": 2 },
+      { "category": "shoes", "subtype": "chunky sneaker", "shoeProfile": "chunky", "color": "white", "formality": 2 }
+    ]
+  }
+]

@@ -87,6 +87,9 @@ const glyphs = {
       <path d="M7 5v2.5l-2.5 3V19h5v-8.5L7 7.5M17 5v2.5l-2.5 3V19h5v-8.5L17 7.5" />
     </>
   ),
+  stats: <path d="M4 20h16M7 16.5V11M12 16.5V5.5M17 16.5v-3.5" />,
+  share: <path d="M12 3.5v11M8 7.5l4-4 4 4M6.5 11H5.5a1 1 0 0 0-1 1v7.5a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V12a1 1 0 0 0-1-1h-1" />,
+  download: <path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M4.5 19.5h15" />,
 } as const;
 
 export type IconName = keyof typeof glyphs;

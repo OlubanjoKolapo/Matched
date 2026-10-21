@@ -1,0 +1,100 @@
+[
+  {
+    "id": "build-the-shoulders",
+    "title": "Build the shoulders",
+    "rule": "Structure up top, slimmer below: the V shape.",
+    "body": "An overshirt, a jacket or a trucker adds shoulder width. Pair it with slim or straight trousers and the contrast exaggerates the V.",
+    "kind": "proportion",
+    "tracks": [],
+    "bands": [],
+    "goals": ["broader"],
+    "ruleIds": ["mens.v-shape"],
+    "look": [
+      { "category": "top", "subtype": "t-shirt", "fit": "regular", "color": "white", "formality": 2 },
+      { "category": "outerwear", "subtype": "trucker jacket", "fit": "regular", "color": "tan", "formality": 2 },
+      { "category": "bottom", "subtype": "jeans", "fit": "slim", "color": "black", "material": "denim", "formality": 2 },
+      { "category": "shoes", "subtype": "leather sneaker", "shoeProfile": "low", "color": "white", "formality": 3 }
+    ]
+  },
+  {
+    "id": "heavier-knits",
+    "title": "Choose a heavier knit",
+    "rule": "A chunky knit adds presence through the chest and shoulders.",
+    "body": "Thin jerseys cling; a heavier knit stands away from the body and gives you more shape. Keep the trousers slimmer so the top does the work.",
+    "kind": "proportion",
+    "tracks": [],
+    "bands": [],
+    "goals": ["broader"],
+    "ruleIds": ["mens.v-shape", "proportion.volume-on-top"],
+    "look": [
+      { "category": "top", "subtype": "crewneck sweater", "fit": "relaxed", "color": "cream", "material": "knit", "formality": 3 },
+      { "category": "bottom", "subtype": "chinos", "fit": "slim", "color": "navy", "formality": 3 },
+      { "category": "shoes", "subtype": "chelsea boot", "shoeProfile": "boot", "color": "black", "formality": 4 }
+    ]
+  },
+  {
+    "id": "slim-the-bottom",
+    "title": "Keep the bottom slim",
+    "rule": "A narrower leg makes the shoulders look wider by contrast.",
+    "body": "Broadness is relative. Slim or straight trousers under a roomier top widen the gap between shoulder and hip, which is exactly the effect you want.",
+    "kind": "proportion",
+    "tracks": [],
+    "bands": [],
+    "goals": ["broader"],
+    "ruleIds": ["proportion.volume-on-top"],
+    "look": [
+      { "category": "top", "subtype": "overshirt", "fit": "relaxed", "color": "olive", "formality": 3 },
+      { "category": "bottom", "subtype": "jeans", "fit": "slim", "color": "navy", "material": "denim", "formality": 2 },
+      { "category": "shoes", "subtype": "leather sneaker", "shoeProfile": "low", "color": "white", "formality": 3 }
+    ]
+  },
+  {
+    "id": "dark-base",
+    "title": "Start from a dark base",
+    "rule": "Darker trousers keep the silhouette clean and long.",
+    "body": "Dark colors recede, light colors come forward. Navy, charcoal or black on the bottom makes a quieter, leaner foundation for whatever you wear on top.",
+    "kind": "color",
+    "tracks": [],
+    "bands": [],
+    "goals": ["leaner"],
+    "ruleIds": ["color.dark-base"],
+    "look": [
+      { "category": "top", "subtype": "t-shirt", "fit": "regular", "color": "grey", "formality": 2 },
+      { "category": "bottom", "subtype": "jeans", "fit": "straight", "color": "black", "material": "denim", "formality": 2 },
+      { "category": "shoes", "subtype": "chelsea boot", "shoeProfile": "boot", "color": "black", "formality": 4 }
+    ]
+  },
+  {
+    "id": "clean-straight-lines",
+    "title": "Choose clean, straight lines",
+    "rule": "Straight cuts flatter more than very tight or very baggy.",
+    "body": "A straight leg and a regular top fall in clean lines without clinging or ballooning. It's the shape that reads as neat and lean on almost everyone.",
+    "kind": "proportion",
+    "tracks": [],
+    "bands": [],
+    "goals": ["leaner", "put-together"],
+    "ruleIds": ["proportion.even", "shoes.clean-line"],
+    "look": [
+      { "category": "top", "subtype": "t-shirt", "fit": "regular", "color": "navy", "formality": 2 },
+      { "category": "bottom", "subtype": "jeans", "fit": "straight", "color": "denim", "material": "denim", "formality": 2 },
+      { "category": "shoes", "subtype": "leather sneaker", "shoeProfile": "low", "color": "white", "formality": 3 }
+    ]
+  },
+  {
+    "id": "one-light-layer",
+    "title": "One light layer on a dark base",
+    "rule": "Dark underneath, one lighter piece on top, worn open.",
+    "body": "An open light overshirt over a dark tee and trousers frames the body with two vertical edges, while the dark base keeps everything streamlined.",
+    "kind": "color",
+    "tracks": [],
+    "bands": [],
+    "goals": ["leaner"],
+    "ruleIds": ["color.dark-base", "mens.open-layer"],
+    "look": [
+      { "category": "top", "subtype": "t-shirt", "fit": "regular", "color": "black", "formality": 2 },
+      { "category": "outerwear", "subtype": "overshirt", "fit": "relaxed", "color": "beige", "formality": 3 },
+      { "category": "bottom", "subtype": "jeans", "fit": "straight", "color": "black", "material": "denim", "formality": 2 },
+      { "category": "shoes", "subtype": "chelsea boot", "shoeProfile": "boot", "color": "black", "formality": 4 }
+    ]
+  }
+]
