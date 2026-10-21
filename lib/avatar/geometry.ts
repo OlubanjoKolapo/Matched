@@ -262,6 +262,40 @@ export class PathBuilder {
 
 export const path = () => new PathBuilder();
 
+/**
+ * A smooth curve through points (Catmull-Rom, converted to cubics). The same
+ * number of points always yields the same path structure, so organic shapes
+ * built this way morph cleanly. `tension` 0.5 is classic; lower is tauter.
+ */
+export function smoothPath(points: Pt[], closed = true, tension = 0.5): string {
+  const n = points.length;
+  const at = (i: number): Pt => (closed ? points[(i + n) % n]! : points[Math.max(0, Math.min(n - 1, i))]!);
+  const k = tension / 3;
+  const b = path().M(points[0]!);
+  const segments = closed ? n : n - 1;
+  for (let i = 0; i < segments; i++) {
+    const p0 = at(i - 1);
+    const p1 = at(i);
+    const p2 = at(i + 1);
+    const p3 = at(i + 2);
+    b.C(
+      { x: p1.x + (p2.x - p0.x) * k, y: p1.y + (p2.y - p0.y) * k },
+      { x: p2.x - (p3.x - p1.x) * k, y: p2.y - (p3.y - p1.y) * k },
+      p2,
+    );
+  }
+  if (closed) b.Z();
+  return b.toString();
+}
+
+/** Points in a local frame: u along `dir`, v along `normal`, from `origin`. */
+export function local(origin: Pt, dir: Pt, normal: Pt) {
+  return (u: number, v: number): Pt => ({
+    x: origin.x + dir.x * u + normal.x * v,
+    y: origin.y + dir.y * u + normal.y * v,
+  });
+}
+
 /** Ellipse as four cubic curves, so it can morph like any other path. */
 export function ellipsePath(cx: number, cy: number, rx: number, ry: number): string {
   const k = 0.5523;

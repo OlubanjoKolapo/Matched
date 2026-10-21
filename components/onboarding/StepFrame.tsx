@@ -4,7 +4,7 @@ import { Text } from '@/components/ui/Text';
 import { cx } from '@/lib/cx';
 
 /**
- * Layout for one onboarding question: small-caps step label, serif question,
+ * Layout for one onboarding question: small-caps step label, display question,
  * optional lede, the controls, and an action footer that sticks to the bottom
  * on phones.
  */

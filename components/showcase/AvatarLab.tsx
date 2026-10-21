@@ -48,7 +48,7 @@ export function AvatarLab() {
   return (
     <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
       <div className="flex flex-col gap-4">
-        <div data-avatar-stage className="aspect-[4/5] w-full rounded-sm bg-paper-sunken p-4">
+        <div data-avatar-stage className="aspect-[4/5] w-full rounded-sm bg-studio p-4">
           <Avatar config={config} heightCm={heightCm} outfit={outfit} />
         </div>
         <Text variant="caption" tone="muted">

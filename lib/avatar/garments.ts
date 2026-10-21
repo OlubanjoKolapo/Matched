@@ -1,5 +1,5 @@
 import type { Fit, ItemTags, Pattern, ShoeProfile } from '@/lib/types';
-import { armAt, lerp, mirrorD, path, type Figure, type Pt } from './geometry';
+import { armAt, lerp, mirrorD, path, smoothPath, type Figure, type Pt } from './geometry';
 
 /**
  * Garment specs and path templates. A spec is derived from an item's tags;
@@ -110,7 +110,7 @@ function upperPoints(f: Figure, u: Upper) {
   const shoulder = { x: cx + w.shoulder + u.ease * 0.35 + u.drop * 7, y: f.shoulderY - 0.5 + u.drop * 2 };
   const a = armAt(f.arm, Math.max(0.04, u.sleeve));
   // Long sleeves run a little wider so no skin shows between sleeve and body.
-  const sleeveHalf = a.half + 1.5 + u.ease * 0.35 + (u.sleeve > 0.6 ? 2.5 : 0);
+  const sleeveHalf = a.half + 1.5 + u.ease * 0.35 + (u.sleeve > 0.6 ? 3.5 : 0);
   const sleeveOuter = { x: a.centre.x + a.normal.x * sleeveHalf, y: a.centre.y + a.normal.y * sleeveHalf };
   const sleeveInner = { x: a.centre.x - a.normal.x * sleeveHalf, y: a.centre.y - a.normal.y * sleeveHalf };
   const armpit = { x: cx + w.chest + u.ease, y: f.armpitY + u.drop * headH * 0.3 };
@@ -127,6 +127,80 @@ function sleeveEdges(p: ReturnType<typeof upperPoints>, sleeve: number): string 
     .C({ x: p.armpit.x + 2, y: p.armpit.y + 6 }, { x: p.sleeveInner.x - 1, y: p.sleeveInner.y - 6 }, p.sleeveInner)
     .toString();
   return `${edge} ${mirrorD(edge)}`;
+}
+
+/** Each sleeve as its own region, so it can be lit as a rounded form. */
+function sleeveShapes(p: ReturnType<typeof upperPoints>): [string, string] {
+  const sleeve = path()
+    .M(p.shoulder)
+    .C({ x: p.shoulder.x + 6, y: p.shoulder.y + 2 }, { x: p.sleeveOuter.x, y: lerp(p.shoulder.y, p.sleeveOuter.y, 0.55) }, p.sleeveOuter)
+    .L(p.sleeveInner)
+    .C({ x: p.sleeveInner.x - 1, y: p.sleeveInner.y - 6 }, { x: p.armpit.x + 2, y: p.armpit.y + 6 }, p.armpit)
+    .C({ x: p.armpit.x - 2, y: p.armpit.y - 8 }, { x: p.shoulder.x - 5, y: p.shoulder.y + 6 }, p.shoulder)
+    .Z()
+    .toString();
+  return [mirrorD(sleeve), sleeve];
+}
+
+/** A short soft crease across the sleeve at arm position t. */
+function sleeveCrease(f: Figure, t: number, half: number, lift: number): string {
+  const a = armAt(f.arm, t);
+  const tangent = { x: -a.normal.y, y: a.normal.x };
+  const at = (v: number, u: number): Pt => ({
+    x: a.centre.x + a.normal.x * v + tangent.x * u,
+    y: a.centre.y + a.normal.y * v + tangent.y * u,
+  });
+  return smoothPath([at(-half * 0.85, lift), at(0, lift + 2.2), at(half * 0.7, lift - 0.5)], false);
+}
+
+/**
+ * Fabric folds for an upper garment (right side, mirrored): two creases where
+ * the sleeve bends, a drape line from the armpit and a pull line at the hem.
+ * Always four strokes per side, so folds morph with the fit.
+ */
+function upperFolds(f: Figure, p: ReturnType<typeof upperPoints>, sleeve: number, ease: number): string {
+  const { cx } = f;
+  const split =
+    Math.hypot(f.arm.elbow.x - f.arm.shoulder.x, f.arm.elbow.y - f.arm.shoulder.y) /
+    (Math.hypot(f.arm.elbow.x - f.arm.shoulder.x, f.arm.elbow.y - f.arm.shoulder.y) +
+      Math.hypot(f.arm.wrist.x - f.arm.elbow.x, f.arm.wrist.y - f.arm.elbow.y));
+  const t = Math.max(0.05, Math.min(sleeve - 0.06, split - 0.02));
+  const half = armAt(f.arm, t).half + 1.5 + ease * 0.3;
+  const hemHalf = p.hem.x - cx;
+  const side = [
+    sleeveCrease(f, t, half, 0),
+    sleeveCrease(f, Math.min(sleeve - 0.02, t + 0.07), half, 1.5),
+    smoothPath(
+      [
+        { x: p.armpit.x - 2, y: p.armpit.y + 5 },
+        { x: cx + hemHalf * 0.84, y: lerp(p.armpit.y, p.hem.y, 0.28) },
+        { x: cx + hemHalf * 0.74, y: lerp(p.armpit.y, p.hem.y, 0.5) },
+      ],
+      false,
+    ),
+    smoothPath(
+      [
+        { x: cx + hemHalf * 0.3, y: p.hem.y - 3 },
+        { x: cx + hemHalf * 0.5, y: p.hem.y - 10 },
+        { x: cx + hemHalf * 0.72, y: p.hem.y - 14 },
+      ],
+      false,
+    ),
+  ].join(' ');
+  return `${side} ${mirrorD(side)}`;
+}
+
+/** Soft shadow the hem casts on whatever is underneath. */
+function hemShadowPath(f: Figure, hem: Pt): string {
+  const { cx } = f;
+  const l = 2 * cx - hem.x;
+  return path()
+    .M({ x: l + 2, y: hem.y - 2 })
+    .C({ x: cx - 12, y: hem.y + 2 }, { x: cx + 12, y: hem.y + 2 }, { x: hem.x - 2, y: hem.y - 2 })
+    .L({ x: hem.x - 3, y: hem.y + 6 })
+    .C({ x: cx + 12, y: hem.y + 10 }, { x: cx - 12, y: hem.y + 10 }, { x: l + 3, y: hem.y + 6 })
+    .Z()
+    .toString();
 }
 
 export function topPaths(f: Figure, spec: TopSpec) {
@@ -206,6 +280,9 @@ export function topPaths(f: Figure, spec: TopSpec) {
   return {
     body,
     sleeves: sleeveEdges(p, spec.sleeve),
+    sleeveShapes: sleeveShapes(p),
+    folds: upperFolds(f, p, Math.max(0.12, spec.sleeve), spec.ease),
+    hemShadow: hemShadowPath(f, p.hem),
     trim,
     collar: spec.neckline === 'collar' ? collar : undefined,
     placket: spec.placket ? placket : undefined,
@@ -283,7 +360,10 @@ export function outerPaths(f: Figure, spec: OuterSpec) {
 
   return {
     body: `${panel} ${mirrorD(panel)}`,
+    panels: [mirrorD(panel), panel] as [string, string],
     sleeves: sleeveEdges(p, spec.sleeve),
+    sleeveShapes: sleeveShapes(p),
+    folds: upperFolds(f, p, Math.max(0.12, spec.sleeve), spec.ease),
     lapels: spec.lapel ? `${lapelSide} ${mirrorD(lapelSide)}` : undefined,
     pockets: spec.chestPockets ? `${pocketSide} ${mirrorD(pocketSide)}` : undefined,
   };
@@ -399,8 +479,58 @@ export function trouserPaths(f: Figure, spec: TrouserSpec) {
     .C({ x: WR.x - 8, y: topY + 9 }, { x: WR.x - 12, y: topY + 15 }, { x: WR.x - 13, y: topY + 22 })
     .toString();
 
+  // Each leg as its own region, so it can be lit as a rounded form.
+  const leg = path()
+    .M({ x: cx, y: topY })
+    .L(WR)
+    .C({ x: WR.x + 1, y: WR.y + 8 }, { x: HR.x, y: HR.y - 12 }, HR)
+    .C({ x: HR.x + 1, y: HR.y + upper * 0.45 }, { x: KO.x + 1, y: KO.y - upper * 0.3 }, KO)
+    .C({ x: KO.x, y: KO.y + lower * 0.4 }, { x: HO.x, y: HO.y - lower * 0.35 }, HO)
+    .L(HI)
+    .C({ x: HI.x, y: HI.y - lower * 0.35 }, { x: KI.x, y: KI.y + lower * 0.4 }, KI)
+    .C({ x: KI.x, y: KI.y - (kneeY - crotch.y) * 0.45 }, { x: cx + 4, y: crotch.y + 4 }, crotch)
+    .Z()
+    .toString();
+
+  // Folds per leg: a pull line from the crotch, two creases at the knee and
+  // two breaks above the hem. Stacked hems break deeper.
+  const midAt = (y: number) => {
+    const t = Math.min(1, Math.max(0, (y - kneeY) / (hemY - kneeY || 1)));
+    const c = lerp((KO.x + KI.x) / 2, (HO.x + HI.x) / 2, t);
+    const half = lerp((KO.x - KI.x) / 2, (HO.x - HI.x) / 2, t);
+    return { c, half };
+  };
+  const crease = (y: number, spread: number, drop: number) => {
+    const { c, half } = midAt(y);
+    return smoothPath(
+      [
+        { x: c - half * spread, y },
+        { x: c, y: y + drop },
+        { x: c + half * spread * 0.8, y: y - 0.5 },
+      ],
+      false,
+    );
+  };
+  const breakDepth = spec.length === 'stacked' ? 3.5 : 2;
+  const legFolds = [
+    smoothPath(
+      [
+        { x: cx + 3, y: crotch.y + 3 },
+        { x: lerp(cx, KI.x, 0.6) + 2, y: lerp(crotch.y, kneeY, 0.3) },
+        { x: lerp(KI.x, KO.x, 0.35), y: lerp(crotch.y, kneeY, 0.6) },
+      ],
+      false,
+    ),
+    crease(kneeY - 5, 0.6, 2.5),
+    crease(kneeY + 4, 0.5, 2),
+    crease(hemY - 16, 0.7, breakDepth),
+    crease(hemY - 7, 0.8, breakDepth + 0.5),
+  ].join(' ');
+
   return {
     body,
+    legShapes: [mirrorD(leg), leg] as [string, string],
+    folds: `${legFolds} ${mirrorD(legFolds)}`,
     waistband,
     fly,
     creases: spec.creased ? `${creaseSide} ${mirrorD(creaseSide)}` : undefined,
@@ -556,7 +686,23 @@ export function shoePaths(f: Figure, spec: ShoeSpec) {
     .Z()
     .toString();
 
-  return { upper: `${upper} ${mirrorD(upper)}`, sole: `${sole} ${mirrorD(sole)}` };
+  // Light catching the toe box.
+  const toeLight = smoothPath(
+    [
+      { x: fx - shape.toe * 0.4 + out, y: base - 4.5 },
+      { x: fx + shape.toe * 0.1 + out, y: base - 6 },
+      { x: fx + shape.toe * 0.45 + out, y: base - 4 },
+      { x: fx + out, y: base - 2.5 },
+    ],
+    true,
+  );
+
+  return {
+    upper: `${upper} ${mirrorD(upper)}`,
+    uppers: [mirrorD(upper), upper] as [string, string],
+    sole: `${sole} ${mirrorD(sole)}`,
+    toeLight: `${toeLight} ${mirrorD(toeLight)}`,
+  };
 }
 
 // ── Dressing the figure ─────────────────────────────────

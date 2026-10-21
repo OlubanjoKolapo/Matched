@@ -11,12 +11,12 @@ import { cmToFeetInches, type Units } from '@/lib/units';
 import { AVERAGE_HEIGHT_CM } from '@/rules/tuning';
 import { StepFrame } from '../StepFrame';
 
-/** Large serif readout: "176 cm" or "5′ 9″". */
+/** Large numeral readout: "176 cm" or "5′ 9″". */
 function Readout({ cm, units }: { cm: number; units: Units }) {
   if (units === 'metric') {
     return (
       <p className="flex items-baseline gap-2" aria-hidden>
-        <span className="font-display text-numeral numerals tracking-display">{Math.round(cm)}</span>
+        <span className="font-display font-heading text-numeral numerals tracking-display">{Math.round(cm)}</span>
         <span className="caps text-ink-muted">cm</span>
       </p>
     );
@@ -24,9 +24,9 @@ function Readout({ cm, units }: { cm: number; units: Units }) {
   const { feet, inches } = cmToFeetInches(cm);
   return (
     <p className="flex items-baseline gap-1" aria-hidden>
-      <span className="font-display text-numeral numerals tracking-display">{feet}</span>
+      <span className="font-display font-heading text-numeral numerals tracking-display">{feet}</span>
       <span className="caps mr-3 text-ink-muted">ft</span>
-      <span className="font-display text-numeral numerals tracking-display">{inches}</span>
+      <span className="font-display font-heading text-numeral numerals tracking-display">{inches}</span>
       <span className="caps text-ink-muted">in</span>
     </p>
   );

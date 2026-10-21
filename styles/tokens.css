@@ -50,8 +50,9 @@
   --color-metal-shadow: #6c675f;
 
   /* ── Typography ──────────────────────────────────────── */
-  --font-display: var(--font-bodoni), 'Didot', 'Bodoni 72', Georgia, serif;
-  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: var(--font-inter-tight), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-weight-heading: 600; /* display headings and numerals */
 
   --text-micro: 0.6875rem; /* 11px · small-caps labels */
   --text-micro--line-height: 1.2;
@@ -61,20 +62,20 @@
   --text-body--line-height: 1.55;
   --text-lead: 1.125rem; /* 18px */
   --text-lead--line-height: 1.5;
-  --text-title: 1.5rem; /* 24px · serif card titles */
-  --text-title--line-height: 1.15;
-  --text-subhead: clamp(1.75rem, 1.4rem + 1.6vw, 2.625rem); /* section lines, empty states */
-  --text-subhead--line-height: 1.08;
-  --text-headline: clamp(2.25rem, 1.6rem + 3vw, 3.75rem); /* page titles */
-  --text-headline--line-height: 1;
-  --text-display: clamp(3.25rem, 2rem + 7vw, 7.5rem); /* welcome, mastheads */
-  --text-display--line-height: 0.92;
-  --text-numeral: clamp(3.5rem, 2.75rem + 3vw, 5rem); /* match scores */
+  --text-title: 1.375rem; /* 22px · card and option titles */
+  --text-title--line-height: 1.2;
+  --text-subhead: clamp(1.625rem, 1.3rem + 1.4vw, 2.375rem); /* section lines, empty states */
+  --text-subhead--line-height: 1.1;
+  --text-headline: clamp(2.125rem, 1.5rem + 2.6vw, 3.5rem); /* page titles */
+  --text-headline--line-height: 1.02;
+  --text-display: clamp(3rem, 1.8rem + 6vw, 6.75rem); /* welcome, mastheads */
+  --text-display--line-height: 0.94;
+  --text-numeral: clamp(3.25rem, 2.6rem + 2.6vw, 4.5rem); /* match scores */
   --text-numeral--line-height: 0.9;
 
-  --tracking-caps: 0.16em;
-  --tracking-tight: -0.015em;
-  --tracking-display: -0.03em;
+  --tracking-caps: 0.14em;
+  --tracking-tight: -0.02em;
+  --tracking-display: -0.045em;
 
   /* ── Radius (editorial: mostly crisp) ────────────────── */
   --radius-xs: 2px;

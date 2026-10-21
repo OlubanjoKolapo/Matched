@@ -18,7 +18,7 @@ function Silhouette({ avatar, track }: { avatar: AvatarConfig; track: Track }) {
     <span aria-hidden className="flex h-28 w-20 shrink-0 items-end justify-center">
       {frames.map((frame, i) => (
         <span key={frame} className={cx('h-full', frames.length > 1 ? 'w-1/2' : 'w-full', i > 0 && '-ml-2')}>
-          <Avatar config={{ ...avatar, frame }} idle={false} label="" />
+          <Avatar config={{ ...avatar, frame }} idle={false} detail="lite" label="" />
         </span>
       ))}
     </span>
@@ -81,7 +81,7 @@ export function TrackStep({ label }: { label: string }) {
               <Silhouette avatar={draft.avatar} track={option.value} />
               <span className="flex flex-1 flex-col gap-1">
                 <span className="flex flex-wrap items-center gap-3">
-                  <span className="font-display text-title">{option.title}</span>
+                  <span className="font-display font-heading text-title tracking-tight">{option.title}</span>
                   {option.early ? <HangTag>Early — rules growing</HangTag> : null}
                 </span>
                 <span className="text-caption text-ink-muted">{option.body}</span>

@@ -1,21 +1,21 @@
 import type { Metadata, Viewport } from 'next';
-import { Bodoni_Moda, Hanken_Grotesk } from 'next/font/google';
+import { Inter, Inter_Tight } from 'next/font/google';
 import type { ReactNode } from 'react';
 import { themeInitScript } from '@/lib/theme-script';
 import { Providers } from './providers';
 import './globals.css';
 
-const display = Bodoni_Moda({
+/** Display and numerals: tight, confident, contemporary. */
+const display = Inter_Tight({
   subsets: ['latin'],
-  style: ['normal', 'italic'],
-  axes: ['opsz'],
-  variable: '--font-bodoni',
+  variable: '--font-inter-tight',
   display: 'swap',
 });
 
-const sans = Hanken_Grotesk({
+/** Interface text. */
+const sans = Inter({
   subsets: ['latin'],
-  variable: '--font-hanken',
+  variable: '--font-inter',
   display: 'swap',
 });
 

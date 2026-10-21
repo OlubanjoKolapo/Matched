@@ -22,8 +22,8 @@ export function ProfileSettings() {
 
   return (
     <div className="flex items-start gap-5 py-6">
-      <div className="h-36 w-24 shrink-0 rounded-sm bg-paper-sunken px-1 pt-2">
-        <Avatar config={profile.avatar} heightCm={profile.heightCm} idle={false} label="Your figure" />
+      <div className="h-36 w-24 shrink-0 rounded-sm bg-studio px-1 pt-2">
+        <Avatar config={profile.avatar} heightCm={profile.heightCm} idle={false} detail="lite" label="Your figure" />
       </div>
       <div className="flex flex-1 flex-col gap-4">
         <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2">

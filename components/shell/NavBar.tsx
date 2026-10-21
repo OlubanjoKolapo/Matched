@@ -57,8 +57,8 @@ export function NavBar() {
                 </span>
                 <span
                   className={cx(
-                    'hidden font-display text-title tracking-tight lg:inline',
-                    active && 'italic',
+                    'hidden font-display font-heading text-title tracking-tight lg:inline',
+                    active ? 'text-ink' : 'text-ink-muted',
                   )}
                 >
                   {item.label}

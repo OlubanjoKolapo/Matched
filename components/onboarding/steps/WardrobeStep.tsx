@@ -45,7 +45,7 @@ function Choice({
     >
       <span className="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-xs bg-paper-sunken">{visual}</span>
       <span className="flex flex-1 flex-col gap-1">
-        <span className="font-display text-title">{busy ? 'Hanging it up…' : title}</span>
+        <span className="font-display font-heading text-title tracking-tight">{busy ? 'Hanging it up…' : title}</span>
         <span className="text-caption text-ink-muted">{body}</span>
       </span>
       <Icon name="arrow-right" className="transition-transform duration-(--duration-fast) group-hover:translate-x-1" />

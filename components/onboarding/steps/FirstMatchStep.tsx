@@ -85,7 +85,7 @@ export function FirstMatchStep({ label }: { label: string }) {
 
   return (
     <div className="grid min-h-full lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
-      <div className="relative flex h-[min(52svh,34rem)] items-center justify-center overflow-hidden bg-paper-sunken px-gutter lg:sticky lg:top-0 lg:h-dvh">
+      <div className="relative flex h-[min(52svh,34rem)] items-center justify-center overflow-hidden bg-studio px-gutter lg:sticky lg:top-0 lg:h-dvh">
         <AnimatePresence mode="wait">
           {phase !== 'dressed' && ready ? (
             <motion.div key="pieces" exit={{ opacity: 0, scale: 0.92 }} transition={{ duration: 0.3 }} className="w-full max-w-md">

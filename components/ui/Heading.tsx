@@ -10,7 +10,10 @@ const sizes: Record<HeadingSize, string> = {
   title: 'text-title tracking-tight',
 };
 
-/** Display-serif heading. Wrap a word in <em> for the editorial italic. */
+/**
+ * Display heading. Wrap words in <em> for the two-tone emphasis: the
+ * emphasised part drops to a softer ink, the way premium product pages do.
+ */
 export function Heading({
   as: Tag = 'h2',
   size = 'headline',
@@ -23,6 +26,6 @@ export function Heading({
   children: ReactNode;
 }) {
   return (
-    <Tag className={cx('font-display font-normal text-ink [&_em]:italic', sizes[size], className)}>{children}</Tag>
+    <Tag className={cx('font-display font-heading text-ink [&_em]:text-ink-subtle [&_em]:not-italic', sizes[size], className)}>{children}</Tag>
   );
 }

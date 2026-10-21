@@ -40,7 +40,7 @@ export function WelcomeStep({ onStart }: { onStart: () => void }) {
         <Wordmark />
       </header>
 
-      <div className="relative row-start-2 flex items-end justify-center overflow-hidden bg-paper-sunken px-gutter pt-6 lg:col-start-2 lg:row-start-1 lg:pt-16">
+      <div className="relative row-start-2 flex items-end justify-center overflow-hidden bg-studio px-gutter pt-6 lg:col-start-2 lg:row-start-1 lg:pt-16">
         <p className="caps absolute top-4 right-gutter numerals text-ink-subtle lg:top-8 lg:right-12">
           Look {String(index + 1).padStart(2, '0')} / {String(looks.length).padStart(2, '0')}
         </p>

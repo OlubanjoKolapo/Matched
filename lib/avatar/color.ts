@@ -10,6 +10,13 @@ export function shade(hex: string, amount: number): string {
   return `#${toHex(r + (target - r) * t)}${toHex(g + (target - g) * t)}${toHex(b + (target - b) * t)}`;
 }
 
+/** Blends two colors; t = 0 gives a, t = 1 gives b. */
+export function mix(a: string, b: string, t: number): string {
+  const [r1, g1, b1] = hexToRgb(a);
+  const [r2, g2, b2] = hexToRgb(b);
+  return `#${toHex(r1 + (r2 - r1) * t)}${toHex(g1 + (g2 - g1) * t)}${toHex(b1 + (b2 - b1) * t)}`;
+}
+
 /** Relative luminance, 0–1. */
 export function luminance(hex: string): number {
   const [r, g, b] = hexToRgb(hex).map((v) => {

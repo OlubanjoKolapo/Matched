@@ -31,7 +31,7 @@ const labelColor: Record<Verdict, string> = {
 const RADIUS = 47;
 
 /**
- * Match score as a filling ring with a large serif numeral.
+ * Match score as a filling ring with a large display numeral.
  * Fills from zero on mount and re-animates when the score changes.
  */
 export function ScoreRing({ score, size = 'md', className }: { score: number; size?: RingSize; className?: string }) {
@@ -82,7 +82,7 @@ export function ScoreRing({ score, size = 'md', className }: { score: number; si
         />
       </svg>
       <div aria-hidden className="relative flex flex-col items-center">
-        <motion.span className={cx('font-display numerals leading-none tracking-display', numeralSize)}>
+        <motion.span className={cx('font-display font-heading numerals leading-none tracking-display', numeralSize)}>
           {numeral}
         </motion.span>
         {showVerdict ? <span className={cx('caps mt-1', labelColor[verdict])}>{VERDICT_LABEL[verdict]}</span> : null}

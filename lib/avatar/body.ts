@@ -1,210 +1,303 @@
-import { armAt, ellipsePath, lerp, mirror, mirrorD, path, type Figure, type Pt } from './geometry';
+import { armAt, ellipsePath, lerp, local, mirrorD, smoothPath, type Figure, type Pt } from './geometry';
 
-/** Skin shapes for the figure. All paths keep a fixed structure so height and build changes morph. */
+/**
+ * The figure as a studio mannequin: each limb is its own shape so it can be lit
+ * as a rounded form, and the face is sculpted with soft light and shadow rather
+ * than drawn features. Every path keeps a fixed structure, so height and build
+ * changes morph smoothly.
+ */
 export interface BodyPaths {
-  legs: string;
+  legs: [string, string];
+  arms: [string, string];
+  hands: [string, string];
+  /** Faint lines between fingers. */
+  fingers: string;
   torso: string;
   neck: string;
-  arms: string;
-  hands: string;
   head: string;
   ears: string;
-  eyes: string;
-  brows: string;
-  nose: string;
-  mouth: string;
-  shadow: string;
-}
-
-const flip = (p: Pt) => mirror(p);
-
-function headPath(f: Figure): string {
-  const { cx, cy, rx, ry } = f.head;
-  const k = 0.5523;
-  const jaw = rx * 0.86;
-  return path()
-    .M({ x: cx, y: cy - ry })
-    .C({ x: cx + rx * k, y: cy - ry }, { x: cx + rx, y: cy - ry * k }, { x: cx + rx, y: cy })
-    .C({ x: cx + rx, y: cy + ry * 0.45 }, { x: cx + jaw * 0.7, y: cy + ry }, { x: cx, y: cy + ry })
-    .C({ x: cx - jaw * 0.7, y: cy + ry }, { x: cx - rx, y: cy + ry * 0.45 }, { x: cx - rx, y: cy })
-    .C({ x: cx - rx, y: cy - ry * k }, { x: cx - rx * k, y: cy - ry }, { x: cx, y: cy - ry })
-    .Z()
-    .toString();
+  /** Sculpting: soft shapes drawn over the face with blur. */
+  face: {
+    sockets: string;
+    lids: string;
+    brows: string;
+    noseLight: string;
+    noseShade: string;
+    nostrils: string;
+    lips: string;
+    lipLight: string;
+    cheekLight: string;
+  };
+  /** Shadow the jaw casts on the neck. */
+  jawShadow: string;
+  /** Soft floor shadow and the darker contact shadows under each foot. */
+  floor: string;
+  contact: string;
 }
 
 function torsoPath(f: Figure): string {
   const { cx, w } = f;
-  const neckL = { x: cx - w.neck, y: f.neckY - 3 };
-  const shoulderL = { x: cx - w.shoulder + 3, y: f.shoulderY + 2 };
-  const armpitL = { x: cx - w.chest, y: f.armpitY };
-  const waistL = { x: cx - w.waist, y: f.waistY };
-  const hipL = { x: cx - w.hip, y: f.hipY };
-  const crotch = { x: cx, y: f.crotchY + 2 };
-
-  return path()
-    .M(neckL)
-    .C({ x: neckL.x - 2, y: f.shoulderY - 1 }, { x: shoulderL.x + 9, y: f.shoulderY - 2 }, shoulderL)
-    .C({ x: shoulderL.x - 5, y: shoulderL.y + 6 }, { x: armpitL.x - 2, y: armpitL.y - 10 }, armpitL)
-    .C({ x: armpitL.x + 1, y: armpitL.y + 14 }, { x: waistL.x, y: waistL.y - 14 }, waistL)
-    .C({ x: waistL.x, y: waistL.y + 10 }, { x: hipL.x, y: hipL.y - 12 }, hipL)
-    .C({ x: hipL.x, y: hipL.y + 14 }, { x: cx - 6, y: crotch.y }, crotch)
-    .C({ x: cx + 6, y: crotch.y }, flip({ x: hipL.x, y: hipL.y + 14 }), flip(hipL))
-    .C(flip({ x: hipL.x, y: hipL.y - 12 }), flip({ x: waistL.x, y: waistL.y + 10 }), flip(waistL))
-    .C(flip({ x: waistL.x, y: waistL.y - 14 }), flip({ x: armpitL.x + 1, y: armpitL.y + 14 }), flip(armpitL))
-    .C(flip({ x: armpitL.x - 2, y: armpitL.y - 10 }), flip({ x: shoulderL.x - 5, y: shoulderL.y + 6 }), flip(shoulderL))
-    .C(flip({ x: shoulderL.x + 9, y: f.shoulderY - 2 }), flip({ x: neckL.x - 2, y: f.shoulderY - 1 }), flip(neckL))
-    .Z()
-    .toString();
-}
-
-function legsPath(f: Figure): string {
-  const { cx, w } = f;
-  const kneeC = cx + lerp(f.legX, f.footX, 0.5);
-  const ankleC = cx + f.footX;
-  const hipR = { x: cx + w.hip - 0.5, y: f.hipY };
-  const kneeO = { x: kneeC + w.knee, y: f.kneeY };
-  const kneeI = { x: kneeC - w.knee, y: f.kneeY };
-  const ankleO = { x: ankleC + w.ankle, y: f.ankleY + 4 };
-  const ankleI = { x: ankleC - w.ankle, y: f.ankleY + 4 };
-  const crotch = { x: cx, y: f.crotchY };
-  const thighDrop = f.legLen * 0.22;
-  const calfBulge = w.calf - w.knee;
-
-  return path()
-    .M(flip(hipR))
-    .C(flip({ x: hipR.x + 1, y: hipR.y + thighDrop }), flip({ x: kneeO.x + 2, y: kneeO.y - thighDrop * 0.7 }), flip(kneeO))
-    .C(flip({ x: kneeO.x + calfBulge + 1.5, y: f.calfY - 10 }), flip({ x: ankleO.x + 1, y: ankleO.y - 30 }), flip(ankleO))
-    .L(flip(ankleI))
-    .C(flip({ x: ankleI.x - 1, y: ankleI.y - 30 }), flip({ x: kneeI.x - calfBulge, y: f.calfY - 14 }), flip(kneeI))
-    .C(flip({ x: kneeI.x - 1, y: kneeI.y - thighDrop }), { x: cx - 3, y: crotch.y + 6 }, crotch)
-    .C({ x: cx + 3, y: crotch.y + 6 }, { x: kneeI.x - 1, y: kneeI.y - thighDrop }, kneeI)
-    .C({ x: kneeI.x - calfBulge, y: f.calfY - 14 }, { x: ankleI.x - 1, y: ankleI.y - 30 }, ankleI)
-    .L(ankleO)
-    .C({ x: ankleO.x + 1, y: ankleO.y - 30 }, { x: kneeO.x + calfBulge + 1.5, y: f.calfY - 10 }, kneeO)
-    .C({ x: kneeO.x + 2, y: kneeO.y - thighDrop * 0.7 }, { x: hipR.x + 1, y: hipR.y + thighDrop }, hipR)
-    .Z()
-    .toString();
-}
-
-/** One arm as a tapered shape from shoulder to wrist (right side). */
-function armShape(f: Figure): Pt[] {
-  const { arm } = f;
-  const s = armAt(arm, 0);
-  const e = armAt(arm, 0.5);
-  const wr = armAt(arm, 1);
-  const out = (a: ReturnType<typeof armAt>, k = 1) => ({
-    x: a.centre.x + a.normal.x * a.half * k,
-    y: a.centre.y + a.normal.y * a.half * k,
-  });
-  const inn = (a: ReturnType<typeof armAt>) => ({
-    x: a.centre.x - a.normal.x * a.half,
-    y: a.centre.y - a.normal.y * a.half,
-  });
-  return [
-    { x: s.centre.x - 2, y: s.centre.y - arm.upper }, // shoulder cap
-    out(s, 1.05),
-    out(e),
-    out(wr),
-    inn(wr),
-    inn(e),
-    { x: f.cx + f.w.chest - 1, y: f.armpitY + 2 }, // armpit
+  const right: Pt[] = [
+    { x: cx + w.neck + 1, y: f.neckY - 3 },
+    { x: cx + w.neck + (w.shoulder - w.neck) * 0.55, y: f.shoulderY - 1 }, // trapezius
+    { x: cx + w.shoulder - 2, y: f.shoulderY + 3 }, // shoulder point
+    { x: cx + w.chest + 1, y: f.armpitY - 2 },
+    { x: cx + lerp(w.chest, w.waist, 0.5), y: lerp(f.armpitY, f.waistY, 0.55) }, // ribcage
+    { x: cx + w.waist, y: f.waistY },
+    { x: cx + w.hip, y: f.hipY },
+    { x: cx + w.hip * 0.55, y: f.crotchY - 2 },
   ];
+  const left = [...right].reverse().map((p) => ({ x: 2 * cx - p.x, y: p.y }));
+  return smoothPath([...right, { x: cx, y: f.crotchY + 2 }, ...left], true, 0.42);
 }
 
-function armPath(points: Pt[]): string {
-  const [cap, so, eo, wo, wi, ei, pit] = points as [Pt, Pt, Pt, Pt, Pt, Pt, Pt];
-  return path()
-    .M(cap)
-    .C({ x: cap.x + 6, y: cap.y }, { x: so.x + 1, y: so.y - 4 }, so)
-    .C({ x: so.x + 1, y: so.y + 14 }, { x: eo.x + 1, y: eo.y - 14 }, eo)
-    .C({ x: eo.x, y: eo.y + 16 }, { x: wo.x + 0.5, y: wo.y - 16 }, wo)
-    .L(wi)
-    .C({ x: wi.x - 0.5, y: wi.y - 16 }, { x: ei.x, y: ei.y + 16 }, ei)
-    .C({ x: ei.x - 1, y: ei.y - 14 }, { x: pit.x + 2, y: pit.y + 6 }, pit)
-    .C({ x: pit.x - 2, y: pit.y - 10 }, { x: cap.x - 6, y: cap.y + 2 }, cap)
-    .Z()
-    .toString();
+/** The right leg (viewer's right), hip to ankle; the torso covers its top. */
+function legPath(f: Figure): string {
+  const { cx, w, legLen } = f;
+  const kneeC = cx + lerp(f.legX, f.footX, 0.5);
+  const calfC = cx + lerp(f.legX, f.footX, 0.75);
+  const ankleC = cx + f.footX;
+  return smoothPath(
+    [
+      { x: cx + 0.5, y: f.hipY - 10 },
+      { x: cx + w.hip - 1, y: f.hipY - 6 },
+      { x: cx + w.hip + 0.5, y: f.hipY + legLen * 0.08 }, // outer hip
+      { x: kneeC + w.thigh + 2.2, y: f.crotchY + legLen * 0.2 }, // outer thigh
+      { x: kneeC + w.knee + 0.4, y: f.kneeY }, // outer knee
+      { x: calfC + w.calf + 0.6, y: f.calfY - legLen * 0.06 }, // outer calf, higher
+      { x: ankleC + w.ankle + 0.8, y: f.ankleY - legLen * 0.06 },
+      { x: ankleC + w.ankle, y: f.ankleY + 5 },
+      { x: ankleC - w.ankle, y: f.ankleY + 5 },
+      { x: ankleC - w.ankle - 0.4, y: f.ankleY - legLen * 0.08 },
+      { x: calfC - w.calf + 1.6, y: f.calfY + legLen * 0.01 }, // inner calf, lower
+      { x: kneeC - w.knee - 0.6, y: f.kneeY + 2 }, // inner knee
+      { x: kneeC - w.thigh * 0.8, y: f.crotchY + legLen * 0.18 }, // inner thigh
+      { x: cx + 1.2, y: f.crotchY + 1 },
+    ],
+    true,
+    0.45,
+  );
 }
 
-function handPoints(f: Figure): { wo: Pt; wi: Pt; tip: Pt; dir: Pt; normal: Pt; width: number } {
+/** The right arm: deltoid, bicep, elbow, forearm, wrist. */
+function armPath(f: Figure): string {
+  const { arm } = f;
+  const upperLen = Math.hypot(arm.elbow.x - arm.shoulder.x, arm.elbow.y - arm.shoulder.y);
+  const foreLen = Math.hypot(arm.wrist.x - arm.elbow.x, arm.wrist.y - arm.elbow.y);
+  const elbowT = upperLen / (upperLen + foreLen);
+  const edge = (t: number, k: number, side: 1 | -1): Pt => {
+    const a = armAt(arm, t);
+    return { x: a.centre.x + side * a.normal.x * a.half * k, y: a.centre.y + side * a.normal.y * a.half * k };
+  };
+  const forearmT = elbowT + (1 - elbowT) * 0.22;
+  return smoothPath(
+    [
+      { x: arm.shoulder.x - 3, y: arm.shoulder.y - arm.upper - 0.5 }, // shoulder cap
+      edge(0.06, 1.18, 1), // deltoid
+      edge(elbowT * 0.5, 1.02, 1), // upper arm
+      edge(elbowT, 0.86, 1), // elbow
+      edge(forearmT, 1.06, 1), // forearm swell
+      edge(1, 1, 1), // wrist
+      edge(1, 1, -1),
+      edge(forearmT + 0.08, 0.98, -1),
+      edge(elbowT, 0.84, -1),
+      edge(elbowT * 0.5, 0.96, -1),
+      { x: f.cx + f.w.chest - 0.5, y: f.armpitY + 2 }, // armpit
+    ],
+    true,
+    0.45,
+  );
+}
+
+function handFrame(f: Figure) {
   const wr = armAt(f.arm, 1);
   const dx = f.arm.wrist.x - f.arm.elbow.x;
   const dy = f.arm.wrist.y - f.arm.elbow.y;
   const len = Math.hypot(dx, dy) || 1;
   const dir = { x: dx / len, y: dy / len };
-  const handLen = f.headH * 0.58;
-  return {
-    wo: { x: wr.centre.x + wr.normal.x * wr.half, y: wr.centre.y + wr.normal.y * wr.half },
-    wi: { x: wr.centre.x - wr.normal.x * wr.half, y: wr.centre.y - wr.normal.y * wr.half },
-    tip: { x: wr.centre.x + dir.x * handLen, y: wr.centre.y + dir.y * handLen },
-    dir,
-    normal: wr.normal,
-    width: f.arm.wristW * 1.55,
-  };
+  return { at: local(wr.centre, dir, wr.normal), L: f.headH * 0.64, half: wr.half, W: f.arm.wristW * 2.15 };
 }
 
+/** A relaxed mannequin hand: fingers together, thumb resting forward. */
 function handPath(f: Figure): string {
-  const h = handPoints(f);
-  const len = f.headH * 0.58;
-  const mid = { x: h.wo.x + h.dir.x * len * 0.45, y: h.wo.y + h.dir.y * len * 0.45 };
-  const outerBulge = { x: mid.x + h.normal.x * h.width * 0.35, y: mid.y + h.normal.y * h.width * 0.35 };
-  return path()
-    .M(h.wo)
-    .C(outerBulge, { x: h.tip.x + h.normal.x * h.width * 0.6, y: h.tip.y }, h.tip)
-    .C({ x: h.tip.x - h.normal.x * h.width * 0.7, y: h.tip.y }, { x: h.wi.x - h.normal.x * 1.5, y: h.wi.y + 8 }, h.wi)
-    .Z()
-    .toString();
+  const { at, L, half, W } = handFrame(f);
+  return smoothPath(
+    [
+      at(0, half),
+      at(L * 0.32, W * 0.5),
+      at(L * 0.72, W * 0.44),
+      at(L * 0.97, W * 0.14),
+      at(L * 0.94, -W * 0.18),
+      at(L * 0.72, -W * 0.36),
+      at(L * 0.56, -W * 0.56), // thumb tip
+      at(L * 0.4, -W * 0.6),
+      at(L * 0.2, -W * 0.48), // thumb base
+      at(0, -half),
+    ],
+    true,
+    0.4,
+  );
+}
+
+function fingerLines(f: Figure): string {
+  const { at, L, W } = handFrame(f);
+  return [-0.12, 0.08, 0.27]
+    .map((v) =>
+      smoothPath([at(L * 0.58, W * v), at(L * 0.78, W * (v + 0.02)), at(L * 0.93, W * (v + 0.01))], false, 0.5),
+    )
+    .join(' ');
 }
 
 function neckPath(f: Figure): string {
   const { cx, w } = f;
-  const top = f.chin - 8;
-  return path()
-    .M({ x: cx - w.neck, y: top })
-    .L({ x: cx + w.neck, y: top })
-    .C({ x: cx + w.neck, y: f.neckY - 2 }, { x: cx + w.neck + 3, y: f.neckY + 1 }, { x: cx + w.neck + 7, y: f.neckY + 4 })
-    .L({ x: cx - w.neck - 7, y: f.neckY + 4 })
-    .C({ x: cx - w.neck - 3, y: f.neckY + 1 }, { x: cx - w.neck, y: f.neckY - 2 }, { x: cx - w.neck, y: top })
-    .Z()
-    .toString();
+  const top = f.chin - 9;
+  return smoothPath(
+    [
+      { x: cx - w.neck * 0.92, y: top },
+      { x: cx + w.neck * 0.92, y: top },
+      { x: cx + w.neck, y: lerp(top, f.neckY, 0.6) },
+      { x: cx + w.neck + 6, y: f.neckY + 4 }, // flares into the trapezius
+      { x: cx - w.neck - 6, y: f.neckY + 4 },
+      { x: cx - w.neck, y: lerp(top, f.neckY, 0.6) },
+    ],
+    true,
+    0.35,
+  );
 }
 
-function featurePaths(f: Figure) {
+function headPath(f: Figure): string {
   const { cx, cy, rx, ry } = f.head;
-  const eyeY = cy + ry * 0.1;
-  const eyeX = rx * 0.4;
-  const eyes = `${ellipsePath(cx - eyeX, eyeY, 1.7, 1.15)} ${ellipsePath(cx + eyeX, eyeY, 1.7, 1.15)}`;
-  const browY = eyeY - ry * 0.2;
-  const brow = (sx: number) =>
-    path()
-      .M({ x: cx + sx * (eyeX - 3.2), y: browY + 0.6 })
-      .C({ x: cx + sx * (eyeX - 1.5), y: browY - 0.9 }, { x: cx + sx * (eyeX + 1.5), y: browY - 0.9 }, { x: cx + sx * (eyeX + 3.4), y: browY + 0.4 })
-      .toString();
-  const nose = path()
-    .M({ x: cx + 0.6, y: cy + ry * 0.22 })
-    .C({ x: cx + 1.6, y: cy + ry * 0.34 }, { x: cx + 2, y: cy + ry * 0.42 }, { x: cx - 0.8, y: cy + ry * 0.45 })
-    .toString();
+  const right: Pt[] = [
+    { x: cx + rx * 0.7, y: cy - ry * 0.78 },
+    { x: cx + rx * 0.98, y: cy - ry * 0.2 }, // temple
+    { x: cx + rx * 0.95, y: cy + ry * 0.14 }, // cheekbone
+    { x: cx + rx * 0.82, y: cy + ry * 0.5 }, // jaw
+    { x: cx + rx * 0.55, y: cy + ry * 0.82 }, // jaw angle
+    { x: cx + rx * 0.24, y: cy + ry * 0.98 },
+  ];
+  const left = [...right].reverse().map((p) => ({ x: 2 * cx - p.x, y: p.y }));
+  return smoothPath([{ x: cx, y: cy - ry }, ...right, { x: cx, y: cy + ry * 1.01 }, ...left], true, 0.5);
+}
+
+function earPath(f: Figure): string {
+  const { cx, cy, rx, ry } = f.head;
+  return smoothPath(
+    [
+      { x: cx + rx * 0.9, y: cy - ry * 0.06 },
+      { x: cx + rx * 1.1, y: cy - ry * 0.04 },
+      { x: cx + rx * 1.12, y: cy + ry * 0.18 },
+      { x: cx + rx * 1.0, y: cy + ry * 0.34 },
+      { x: cx + rx * 0.88, y: cy + ry * 0.3 },
+    ],
+    true,
+    0.5,
+  );
+}
+
+function almond(c: Pt, w: number, h: number): string {
+  return smoothPath(
+    [
+      { x: c.x - w, y: c.y + h * 0.1 },
+      { x: c.x - w * 0.3, y: c.y - h },
+      { x: c.x + w * 0.4, y: c.y - h * 0.9 },
+      { x: c.x + w, y: c.y },
+      { x: c.x + w * 0.2, y: c.y + h * 0.55 },
+      { x: c.x - w * 0.5, y: c.y + h * 0.5 },
+    ],
+    true,
+    0.5,
+  );
+}
+
+function facePaths(f: Figure): BodyPaths['face'] {
+  const { cx, cy, rx, ry } = f.head;
+  const eyeY = cy + ry * 0.06;
+  const eyeX = rx * 0.37;
+  const both = (d: string) => `${d} ${mirrorD(d)}`;
+
+  const sockets = both(ellipsePath(cx + eyeX, eyeY - ry * 0.02, rx * 0.25, ry * 0.12));
+  // Lowered lids: a serene mannequin gaze rather than painted eyes.
+  const lids = both(almond({ x: cx + eyeX, y: eyeY + ry * 0.015 }, rx * 0.19, ry * 0.035));
+  const brows = both(
+    smoothPath(
+      [
+        { x: cx + eyeX - rx * 0.22, y: eyeY - ry * 0.15 },
+        { x: cx + eyeX + rx * 0.02, y: eyeY - ry * 0.205 },
+        { x: cx + eyeX + rx * 0.26, y: eyeY - ry * 0.16 },
+        { x: cx + eyeX + rx * 0.02, y: eyeY - ry * 0.18 },
+      ],
+      true,
+      0.5,
+    ),
+  );
+
+  const noseTop = eyeY - ry * 0.02;
+  const tip = cy + ry * 0.42;
+  const noseLight = smoothPath(
+    [
+      { x: cx - rx * 0.03, y: noseTop },
+      { x: cx + rx * 0.03, y: noseTop },
+      { x: cx + rx * 0.05, y: tip - ry * 0.03 },
+      { x: cx, y: tip + ry * 0.01 },
+      { x: cx - rx * 0.05, y: tip - ry * 0.03 },
+    ],
+    true,
+    0.5,
+  );
+  // Shadow on the far side of the nose, away from the key light.
+  const noseShade = smoothPath(
+    [
+      { x: cx + rx * 0.06, y: noseTop + ry * 0.04 },
+      { x: cx + rx * 0.13, y: tip - ry * 0.05 },
+      { x: cx + rx * 0.16, y: tip + ry * 0.03 },
+      { x: cx + rx * 0.08, y: tip + ry * 0.04 },
+      { x: cx + rx * 0.06, y: tip - ry * 0.08 },
+    ],
+    true,
+    0.5,
+  );
+  const nostrils = ellipsePath(cx + rx * 0.01, tip + ry * 0.065, rx * 0.15, ry * 0.028);
+
   const mouthY = cy + ry * 0.64;
-  const mouth = path()
-    .M({ x: cx - rx * 0.24, y: mouthY })
-    .C({ x: cx - rx * 0.08, y: mouthY + 1.6 }, { x: cx + rx * 0.08, y: mouthY + 1.6 }, { x: cx + rx * 0.24, y: mouthY })
-    .toString();
-  const ears = `${ellipsePath(cx - rx + 0.4, cy + ry * 0.1, 2.6, 4.6)} ${ellipsePath(cx + rx - 0.4, cy + ry * 0.1, 2.6, 4.6)}`;
-  return { eyes, brows: `${brow(-1)} ${brow(1)}`, nose, mouth, ears };
+  const lipW = rx * 0.27;
+  const lips = smoothPath(
+    [
+      { x: cx - lipW, y: mouthY },
+      { x: cx - lipW * 0.45, y: mouthY - ry * 0.055 },
+      { x: cx, y: mouthY - ry * 0.035 }, // cupid's bow
+      { x: cx + lipW * 0.45, y: mouthY - ry * 0.055 },
+      { x: cx + lipW, y: mouthY },
+      { x: cx + lipW * 0.4, y: mouthY + ry * 0.075 },
+      { x: cx - lipW * 0.4, y: mouthY + ry * 0.075 },
+    ],
+    true,
+    0.45,
+  );
+  const lipLight = ellipsePath(cx - lipW * 0.15, mouthY + ry * 0.04, lipW * 0.35, ry * 0.018);
+  const cheekLight = ellipsePath(cx - rx * 0.5, cy + ry * 0.26, rx * 0.2, ry * 0.12);
+
+  return { sockets, lids, brows, noseLight, noseShade, nostrils, lips, lipLight, cheekLight };
 }
 
 export function bodyPaths(f: Figure): BodyPaths {
-  const arm = armPath(armShape(f));
+  const leg = legPath(f);
+  const arm = armPath(f);
   const hand = handPath(f);
-  const face = featurePaths(f);
+  const ear = earPath(f);
+  const feet = (offset: number, rx: number, ry: number) =>
+    `${ellipsePath(f.cx + f.footX + offset, f.floor, rx, ry)} ${ellipsePath(f.cx - f.footX - offset, f.floor, rx, ry)}`;
   return {
-    legs: legsPath(f),
+    legs: [mirrorD(leg), leg],
+    arms: [mirrorD(arm), arm],
+    hands: [mirrorD(handPath(f)), hand],
+    fingers: `${fingerLines(f)} ${mirrorD(fingerLines(f))}`,
     torso: torsoPath(f),
     neck: neckPath(f),
-    arms: `${arm} ${mirrorD(arm)}`,
-    hands: `${hand} ${mirrorD(hand)}`,
     head: headPath(f),
-    shadow: ellipsePath(f.cx, f.floor + 1, f.w.hip * 1.7, 5),
-    ...face,
+    ears: `${ear} ${mirrorD(ear)}`,
+    face: facePaths(f),
+    jawShadow: ellipsePath(f.cx, f.chin - 1, f.w.neck * 1.25, 5),
+    floor: ellipsePath(f.cx, f.floor + 1, f.w.hip * 2.1, 7),
+    contact: feet(2.5, 12, 2.6),
   };
 }

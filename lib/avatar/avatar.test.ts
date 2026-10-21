@@ -25,8 +25,20 @@ import { HAIR_STYLES } from './palette';
 
 const figure = buildFigure({ frame: 'menswear', build: 'average' });
 
-/** All strings in an object of paths share one signature per key. */
-function expectMorphable(variants: Record<string, string | undefined>[]) {
+type PathRecord = Record<string, string | string[] | undefined>;
+
+/** Flattens [left, right] pairs into separate named paths. */
+function flatten(record: PathRecord): Record<string, string | undefined> {
+  return Object.fromEntries(
+    Object.entries(record).flatMap(([key, value]) =>
+      Array.isArray(value) ? value.map((d, i) => [`${key}.${i}`, d] as const) : [[key, value] as const],
+    ),
+  );
+}
+
+/** All paths in a set of variants share one signature per key. */
+function expectMorphable(records: PathRecord[]) {
+  const variants = records.map(flatten);
   const keys = Object.keys(variants[0]!);
   for (const key of keys) {
     const signatures = new Set(variants.map((v) => v[key]).filter(Boolean).map((d) => pathSignature(d!)));
@@ -34,8 +46,8 @@ function expectMorphable(variants: Record<string, string | undefined>[]) {
   }
 }
 
-function expectFinite(...paths: (string | undefined)[]) {
-  for (const d of paths) if (d) expect(d).not.toMatch(/NaN|Infinity/);
+function expectFinite(...paths: (string | string[] | undefined)[]) {
+  for (const d of paths.flat()) if (d) expect(d).not.toMatch(/NaN|Infinity/);
 }
 
 describe('figure', () => {
@@ -66,8 +78,13 @@ describe('figure', () => {
   });
 
   it('keeps body paths morphable across height, build and cut', () => {
+    // Flatten limbs and face sculpting into one record of named paths.
+    const flat = (b: ReturnType<typeof bodyPaths>): Record<string, string> => {
+      const { legs, arms, hands, face, ...rest } = b;
+      return { ...rest, ...face, legL: legs[0], legR: legs[1], armL: arms[0], armR: arms[1], handL: hands[0], handR: hands[1] };
+    };
     const variants = FRAMES.flatMap((frame) =>
-      BUILDS.flatMap((build) => [150, 176, 200].map((heightCm) => ({ ...bodyPaths(buildFigure({ frame, build, heightCm })) }))),
+      BUILDS.flatMap((build) => [150, 176, 200].map((heightCm) => flat(bodyPaths(buildFigure({ frame, build, heightCm }))))),
     );
     expectMorphable(variants);
     for (const v of variants) expectFinite(...Object.values(v));

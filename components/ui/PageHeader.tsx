@@ -3,7 +3,7 @@ import { cx } from '@/lib/cx';
 import { Heading } from './Heading';
 import { Text } from './Text';
 
-/** Masthead for a screen: small-caps eyebrow, serif title, optional lede and actions. */
+/** Masthead for a screen: small-caps eyebrow, display title, optional lede and actions. */
 export function PageHeader({
   eyebrow,
   title,

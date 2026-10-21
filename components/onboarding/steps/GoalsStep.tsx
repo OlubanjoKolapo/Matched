@@ -49,7 +49,7 @@ export function GoalsStep({ label }: { label: string }) {
                 )}
               >
                 <span className="flex items-center justify-between gap-3">
-                  <span className="font-display text-title">{goal.label}</span>
+                  <span className="font-display font-heading text-title tracking-tight">{goal.label}</span>
                   <span
                     aria-hidden
                     className={cx(

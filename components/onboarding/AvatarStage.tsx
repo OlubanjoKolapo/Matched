@@ -23,7 +23,7 @@ export function AvatarStage({
     <div
       className={cx(
         // Pinned under the header on phones so the figure stays in view while you answer.
-        'sticky top-[calc(var(--spacing-masthead)+env(safe-area-inset-top)+2px)] z-(--z-stage) flex h-stage flex-col items-center justify-end overflow-hidden bg-paper-sunken px-gutter pt-4 pb-3',
+        'sticky top-[calc(var(--spacing-masthead)+env(safe-area-inset-top)+2px)] z-(--z-stage) flex h-stage flex-col items-center justify-end overflow-hidden bg-studio px-gutter pt-4 pb-3',
         'lg:top-0 lg:h-dvh lg:pt-24 lg:pb-12',
         className,
       )}

@@ -88,7 +88,7 @@ export default function ShowcasePage() {
       </div>
 
       <Hairline />
-      <Section index="01" title="Typography" note="Bodoni Moda for display and numerals. Hanken Grotesk for UI.">
+      <Section index="01" title="Typography" note="Inter Tight for display and numerals. Inter for interface text.">
         <div className="flex flex-col gap-8">
           <div>
             <p className="caps mb-2 text-ink-subtle">Display</p>

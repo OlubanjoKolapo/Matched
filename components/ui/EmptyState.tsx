@@ -5,7 +5,7 @@ import { Heading } from './Heading';
 import { Text } from './Text';
 
 /**
- * Editorial empty state: a numbered aside, a serif italic line, a short
+ * Editorial empty state: a numbered aside, a display line, a short
  * explanation and one or two actions.
  */
 export function EmptyState({
@@ -29,7 +29,7 @@ export function EmptyState({
         {index ? <p className="caps text-ink-muted lg:col-span-2">{index}</p> : null}
         <div className={cx('flex flex-col gap-5', index ? 'lg:col-span-7' : 'lg:col-span-8')}>
           <Heading size="subhead">
-            <em>{title}</em>
+            {title}
           </Heading>
           {body ? (
             <Text variant="lead" tone="muted" className="max-w-prose">
