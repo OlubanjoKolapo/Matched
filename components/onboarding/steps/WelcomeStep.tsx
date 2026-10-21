@@ -35,7 +35,7 @@ export function WelcomeStep({ onStart }: { onStart: () => void }) {
   }, [reduce, looks.length]);
 
   return (
-    <div className="grid min-h-dvh grid-rows-[auto_1fr_auto] lg:grid-cols-2 lg:grid-rows-1">
+    <div className="grid min-h-dvh grid-rows-[auto_1fr_auto] overflow-x-clip lg:grid-cols-2 lg:grid-rows-1">
       <header className="flex h-masthead items-center px-gutter pt-safe lg:absolute lg:top-0 lg:left-0 lg:px-12">
         <Wordmark />
       </header>

@@ -33,7 +33,7 @@ interface OnboardingState {
   toggleGoal: (goal: Goal) => void;
   setAvatar: (patch: Partial<AvatarConfig>) => void;
   randomise: () => void;
-  start: (options: { mode: 'new' | 'edit'; profile?: Profile | null; units: Units }) => void;
+  start: (options: { mode: 'new' | 'edit'; profile?: Profile | null; units: Units; step?: Step }) => void;
   /** Clears the flow when leaving onboarding. */
   reset: () => void;
 }
@@ -76,11 +76,11 @@ export const useOnboarding = create<OnboardingState>((set, get) => ({
   setAvatar: (patch) => set(({ draft }) => ({ draft: { ...draft, avatar: { ...draft.avatar, ...patch } } })),
   randomise: () => set(({ draft }) => ({ draft: { ...draft, avatar: randomAvatar(draft.avatar.frame) } })),
 
-  start: ({ mode, profile, units }) =>
+  start: ({ mode, profile, units, step }) =>
     set({
       ready: true,
       mode,
-      step: mode === 'edit' ? 'track' : 'welcome',
+      step: step ?? (mode === 'edit' ? 'track' : 'welcome'),
       direction: 1,
       draft: profile
         ? { track: profile.track, heightCm: profile.heightCm, units: profile.units, goals: profile.goals, avatar: { ...DEFAULT_PROFILE.avatar, ...profile.avatar } }

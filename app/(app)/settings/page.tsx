@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
+import { ApiKeySetting } from '@/components/settings/ApiKeySetting';
 import { AppearanceSetting } from '@/components/settings/AppearanceSetting';
 import { ClearDataSetting } from '@/components/settings/ClearDataSetting';
 import { ProfileSettings } from '@/components/settings/ProfileSettings';
@@ -37,7 +38,7 @@ export default function SettingsPage() {
             <span>Stored on this device</span>
           </Eyebrow>
         }
-        title={<em>Settings</em>}
+        title="Settings"
       />
       <section aria-labelledby="profile" className="max-w-page pb-10">
         <p id="profile" className="caps pb-2 text-ink-muted">
@@ -45,6 +46,14 @@ export default function SettingsPage() {
         </p>
         <Hairline />
         <ProfileSettings />
+        <Hairline />
+      </section>
+      <section aria-labelledby="tagging" className="max-w-page pb-10">
+        <p id="tagging" className="caps pb-2 text-ink-muted">
+          Photo tagging
+        </p>
+        <Hairline />
+        <ApiKeySetting />
         <Hairline />
       </section>
       <section aria-labelledby="appearance" className="max-w-page">

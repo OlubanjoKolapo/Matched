@@ -35,8 +35,16 @@ export function OnboardingFlow() {
   // Start once the saved profile is known. ?edit=1 reopens it from Settings.
   useEffect(() => {
     if (ready || profile === undefined) return;
-    const edit = new URLSearchParams(window.location.search).get('edit') === '1' && !!profile;
-    start({ mode: edit ? 'edit' : 'new', profile: edit ? profile : null, units: profile?.units ?? defaultUnits(navigator.language) });
+    const params = new URLSearchParams(window.location.search);
+    const edit = params.get('edit') === '1' && !!profile;
+    // ?step=first-match: straight to the payoff once someone has added their own three pieces.
+    const firstMatch = params.get('step') === 'first-match' && !!profile;
+    start({
+      mode: edit ? 'edit' : 'new',
+      profile: edit || firstMatch ? profile : null,
+      units: profile?.units ?? defaultUnits(navigator.language),
+      step: firstMatch ? 'first-match' : undefined,
+    });
   }, [profile, ready, start]);
 
   // Leaving onboarding clears the flow, so the next visit starts fresh.
@@ -93,7 +101,8 @@ export function OnboardingFlow() {
         <ProgressBar value={position / steps.length} label={`Onboarding progress, ${stepLabel.toLowerCase()}`} />
       </header>
 
-      <main className={showStage ? 'grid flex-1 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]' : 'flex flex-1 flex-col'}>
+      {/* overflow-x-clip: steps slide in from the side; without it phones briefly widen and zoom the page. */}
+      <main className={showStage ? 'grid flex-1 overflow-x-clip lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]' : 'flex flex-1 flex-col overflow-x-clip'}>
         {showStage ? <AvatarStage avatar={draft.avatar} heightCm={draft.heightCm} outfit={stageOutfit} caption={caption} /> : null}
 
         <AnimatePresence mode="wait" initial={false} custom={direction}>

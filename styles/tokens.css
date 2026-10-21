@@ -113,6 +113,17 @@
   --shadow-inset: inset 0 1px 2px rgb(22 19 15 / 0.08);
   --drop-shadow-garment: 0 16px 14px rgb(22 19 15 / 0.2);
 
+  /* ── Animation ───────────────────────────────────────── */
+  --animate-shimmer: shimmer 1.6s ease-in-out infinite; /* AI tagging placeholder */
+  @keyframes shimmer {
+    0% {
+      background-position: 160% 0;
+    }
+    100% {
+      background-position: -60% 0;
+    }
+  }
+
   /* ── Easing ──────────────────────────────────────────── */
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --ease-emphasized: cubic-bezier(0.22, 1, 0.36, 1);

@@ -16,7 +16,8 @@ export function Swatch({
   className?: string;
 }) {
   return (
-    <span className={cx('inline-flex items-center gap-1.5', className)}>
+    // relative: contains the sr-only name, which would otherwise escape scrolling rows and widen the page.
+    <span className={cx('relative inline-flex items-center gap-1.5', className)}>
       <span
         aria-hidden
         className="size-swatch shrink-0 rounded-pill border border-rule-strong"

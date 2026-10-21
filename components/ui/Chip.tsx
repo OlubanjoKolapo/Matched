@@ -29,7 +29,7 @@ export function Chip({ selected = false, uncertain = false, leading, className, 
       variants={popVariants}
       whileTap={{ scale: scale.tap }}
       className={cx(
-        'inline-flex h-9 items-center gap-2 rounded-pill border px-3.5 text-caption font-medium whitespace-nowrap',
+        'relative inline-flex h-9 items-center gap-2 rounded-pill border px-3.5 text-caption font-medium whitespace-nowrap',
         'transition-[background-color,color,border-color] duration-(--duration-fast) ease-standard',
         selected
           ? 'border-ink bg-ink text-on-ink'

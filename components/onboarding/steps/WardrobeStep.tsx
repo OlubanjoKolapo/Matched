@@ -122,8 +122,8 @@ export function WardrobeStep({ label }: { label: string }) {
         />
         <Choice
           onClick={snap}
-          title="Snap my clothes"
-          body="Photograph a top, a bottom and shoes on a plain background."
+          title="Add my clothes"
+          body="Take photos, or upload from your library. A top, a bottom and shoes to start."
           visual={<Icon name="camera" className="size-9 text-ink-muted" />}
         />
         {error ? (

@@ -16,7 +16,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <NavBar />
       <main
         id="main"
-        className="pb-[calc(var(--spacing-tabbar)+var(--spacing-fab)+var(--spacing-gutter)*2+env(safe-area-inset-bottom))] lg:pb-section lg:pl-rail"
+        className="overflow-x-clip pb-[calc(var(--spacing-tabbar)+var(--spacing-fab)+var(--spacing-gutter)*2+env(safe-area-inset-bottom))] lg:pb-section lg:pl-rail"
       >
         <div className="mx-auto w-full max-w-page px-gutter">{children}</div>
       </main>
