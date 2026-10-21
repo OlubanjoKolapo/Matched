@@ -8,10 +8,22 @@ export interface ProfileRecord extends Profile {
 
 const PROFILE_ID = 'me' as const;
 
+/** One row per local calendar day: today's fit and whether it was worn. */
+export interface DayRecord {
+  /** YYYY-MM-DD in the person's timezone. */
+  date: string;
+  /** How many times Shuffle was pressed today. */
+  shuffle: number;
+  /** The pieces worn today, once Wear this is pressed. */
+  wornItemIds?: string[];
+  wornAt?: string;
+}
+
 export class MatchedDB extends Dexie {
   items!: EntityTable<Item, 'id'>;
   outfits!: EntityTable<Outfit, 'id'>;
   profile!: EntityTable<ProfileRecord, 'id'>;
+  days!: EntityTable<DayRecord, 'date'>;
 
   constructor(name = 'matched') {
     super(name);
@@ -21,6 +33,8 @@ export class MatchedDB extends Dexie {
       outfits: 'id, savedAt',
       profile: 'id',
     });
+    // v2: daily fit state.
+    this.version(2).stores({ days: 'date' });
   }
 }
 
@@ -64,7 +78,7 @@ export async function saveProfile(patch: Partial<Profile>, db = getDB()): Promis
 
 /** Wipes every table. Used by Settings → Clear all data. */
 export async function clearAllData(db = getDB()): Promise<void> {
-  await db.transaction('rw', [db.items, db.outfits, db.profile], async () => {
-    await Promise.all([db.items.clear(), db.outfits.clear(), db.profile.clear()]);
+  await db.transaction('rw', [db.items, db.outfits, db.profile, db.days], async () => {
+    await Promise.all([db.items.clear(), db.outfits.clear(), db.profile.clear(), db.days.clear()]);
   });
 }

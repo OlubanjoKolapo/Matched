@@ -9,6 +9,8 @@ export const HAPTICS = {
 export function haptic(pattern: readonly number[] = HAPTICS.tick): void {
   if (typeof navigator === 'undefined' || !('vibrate' in navigator)) return;
   if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+  // Browsers refuse (and log) vibration before the person has interacted with the page.
+  if (navigator.userActivation && !navigator.userActivation.hasBeenActive) return;
   try {
     navigator.vibrate([...pattern]);
   } catch {

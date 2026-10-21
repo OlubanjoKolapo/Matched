@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ReasonList } from '@/components/match/ReasonList';
-import { Button } from '@/components/ui/Button';
+import { Button, ButtonLink } from '@/components/ui/Button';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Heading } from '@/components/ui/Heading';
 import { IconButton } from '@/components/ui/IconButton';
@@ -151,7 +151,12 @@ export function ItemSheet({
                               transition={{ duration: 0.3, ease: ease.emphasized }}
                               className="overflow-hidden"
                             >
-                              <ReasonList reasons={outfit.result.reasons} className="px-4 pb-4" />
+                              <ReasonList reasons={outfit.result.reasons} className="px-4" />
+                              <div className="px-4 pt-1 pb-4">
+                                <ButtonLink href={`/match?items=${outfit.items.map((p) => p.id).join(',')}`} variant="secondary" size="sm">
+                                  Open in Match
+                                </ButtonLink>
+                              </div>
                             </motion.div>
                           ) : null}
                         </AnimatePresence>
