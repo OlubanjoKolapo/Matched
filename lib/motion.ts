@@ -47,3 +47,8 @@ export const duration = {
   /** Score ring fill. */
   ring: 1.1,
 } as const;
+
+/** 'smooth', unless the person prefers reduced motion. For scrollTo and scrollIntoView. */
+export function scrollBehavior(): ScrollBehavior {
+  return typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+}

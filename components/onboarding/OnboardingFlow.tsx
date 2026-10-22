@@ -1,12 +1,14 @@
 'use client';
 
 import { AnimatePresence, motion } from 'motion/react';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo } from 'react';
 import { Wordmark } from '@/components/shell/Wordmark';
 import { IconButton } from '@/components/ui/IconButton';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { useProfile } from '@/lib/hooks/data';
+import { useHydrated } from '@/lib/hooks/useSearchFlag';
 import { ease } from '@/lib/motion';
 import { DEFAULT_LOOK, GOAL_OPTIONS, type Step } from '@/lib/onboarding/content';
 import { saveDraft } from '@/lib/onboarding/save';
@@ -14,13 +16,29 @@ import { sampleLook } from '@/lib/sample/looks';
 import { PROGRESS_STEPS, useOnboarding } from '@/lib/store/onboarding';
 import { defaultUnits, formatHeight } from '@/lib/units';
 import { AvatarStage } from './AvatarStage';
-import { AvatarStep } from './steps/AvatarStep';
-import { FirstMatchStep } from './steps/FirstMatchStep';
-import { GoalsStep } from './steps/GoalsStep';
-import { HeightStep } from './steps/HeightStep';
-import { TrackStep } from './steps/TrackStep';
-import { WardrobeStep } from './steps/WardrobeStep';
 import { WelcomeStep } from './steps/WelcomeStep';
+
+/*
+ * Only the welcome screen ships with the page. The other steps load in the
+ * background once it's idle, so the first paint stays light and "Get started"
+ * is still instant.
+ */
+const loadTrack = () => import('./steps/TrackStep');
+const loadHeight = () => import('./steps/HeightStep');
+const loadGoals = () => import('./steps/GoalsStep');
+const loadAvatar = () => import('./steps/AvatarStep');
+const loadWardrobe = () => import('./steps/WardrobeStep');
+const loadFirstMatch = () => import('./steps/FirstMatchStep');
+const TrackStep = dynamic(() => loadTrack().then((m) => m.TrackStep));
+const HeightStep = dynamic(() => loadHeight().then((m) => m.HeightStep));
+const GoalsStep = dynamic(() => loadGoals().then((m) => m.GoalsStep));
+const AvatarStep = dynamic(() => loadAvatar().then((m) => m.AvatarStep));
+const WardrobeStep = dynamic(() => loadWardrobe().then((m) => m.WardrobeStep));
+const FirstMatchStep = dynamic(() => loadFirstMatch().then((m) => m.FirstMatchStep));
+
+function prefetchSteps() {
+  for (const load of [loadTrack, loadHeight, loadGoals, loadAvatar, loadWardrobe, loadFirstMatch]) void load();
+}
 
 const EDIT_STEPS: Step[] = ['track', 'height', 'goals', 'avatar'];
 
@@ -31,6 +49,7 @@ export function OnboardingFlow() {
   const router = useRouter();
   const profile = useProfile();
   const { ready, step, direction, mode, draft, start, reset, next, back, setHeight } = useOnboarding();
+  const hydrated = useHydrated();
 
   // Start once the saved profile is known. ?edit=1 reopens it from Settings.
   useEffect(() => {
@@ -50,13 +69,25 @@ export function OnboardingFlow() {
   // Leaving onboarding clears the flow, so the next visit starts fresh.
   useEffect(() => reset, [reset]);
 
+  // Warm the remaining steps once the page has settled.
+  useEffect(() => {
+    const idle = window.requestIdleCallback ?? ((fn: () => void) => window.setTimeout(fn, 1500));
+    idle(prefetchSteps);
+  }, []);
+
   // The figure dresses for the most recent goal picked.
   const look = useMemo(() => {
     const goal = GOAL_OPTIONS.find((g) => g.value === draft.goals[draft.goals.length - 1]);
     return sampleLook(goal?.look ?? DEFAULT_LOOK);
   }, [draft.goals]);
 
-  if (!ready) return <div className="min-h-dvh bg-paper" aria-busy="true" />;
+  if (!ready) {
+    // The welcome screen is the first thing almost everyone sees, so it's in the
+    // static HTML. Deep links (?edit, ?step) wait for the profile instead.
+    const deepLink = hydrated && /[?&](edit|step)=/.test(window.location.search);
+    if (deepLink) return <div className="min-h-dvh bg-paper" aria-busy="true" />;
+    return <WelcomeStep onStart={() => undefined} />;
+  }
   if (step === 'welcome') return <WelcomeStep onStart={next} />;
 
   const steps = mode === 'edit' ? EDIT_STEPS : PROGRESS_STEPS;

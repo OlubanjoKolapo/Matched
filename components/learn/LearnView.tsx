@@ -10,6 +10,7 @@ import { useProfile, useWardrobe } from '@/lib/hooks/data';
 import { useHydrated, useSearchParam } from '@/lib/hooks/useSearchFlag';
 import { lessonsFor, tryItWith, type Lesson } from '@/lib/lessons';
 import { markLessonRead } from '@/lib/lessons/actions';
+import { scrollBehavior } from '@/lib/motion';
 import { dayKey } from '@/lib/outfit/today';
 import type { Item, Profile } from '@/lib/types';
 import { LessonCard, type TryIt } from './LessonCard';
@@ -50,19 +51,15 @@ function Deck({ lessons, profile, wardrobe, start }: { lessons: Lesson[]; profil
     const el = scroller.current;
     if (!el) return;
     const next = Math.max(0, Math.min(lessons.length - 1, index));
-    el.scrollTo({ left: next * el.clientWidth, behavior: 'smooth' });
+    el.scrollTo({ left: next * el.clientWidth, behavior: scrollBehavior() });
   }
 
   const readCount = lessons.filter((l) => profile.lessonsRead.includes(l.id)).length;
 
   return (
     <section className="flex flex-col gap-6 pb-8">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <StreakBadge streak={profile.streak} today={today} />
-        <p className="caps text-ink-muted">
-          <span className="numerals">{readCount}</span> of <span className="numerals">{lessons.length}</span> read
-        </p>
-      </div>
+      {/* Alone on its line, so a changing streak never moves the deck. */}
+      <StreakBadge streak={profile.streak} today={today} />
 
       <div className="-mx-gutter">
         <div
@@ -98,8 +95,11 @@ function Deck({ lessons, profile, wardrobe, start }: { lessons: Lesson[]; profil
         <IconButton icon="arrow-left" label="Previous lesson" variant="outline" onClick={() => go(active - 1)} disabled={active === 0} />
         <div className="flex flex-1 flex-col gap-2">
           <ProgressBar value={(active + 1) / lessons.length} label="Lesson position" />
-          <p className="caps numerals text-ink-muted" aria-live="polite">
-            {String(active + 1).padStart(2, '0')} / {String(lessons.length).padStart(2, '0')}
+          <p className="caps numerals flex justify-between text-ink-muted">
+            <span aria-live="polite">
+              {String(active + 1).padStart(2, '0')} / {String(lessons.length).padStart(2, '0')}
+            </span>
+            <span>{readCount} read</span>
           </p>
         </div>
         <IconButton

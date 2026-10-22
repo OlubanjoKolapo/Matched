@@ -115,6 +115,32 @@
 
   /* ── Animation ───────────────────────────────────────── */
   --animate-shimmer: shimmer 1.6s ease-in-out infinite; /* AI tagging placeholder */
+  /* Mannequin idle: a slow sway about the feet and a faint breath. Composited, so no repaints. */
+  --animate-sway: sway 12s ease-in-out infinite, breathe 4.6s ease-in-out infinite;
+  @keyframes sway {
+    0%,
+    100% {
+      rotate: 0deg;
+    }
+    25% {
+      rotate: 0.5deg;
+    }
+    50% {
+      rotate: 0deg;
+    }
+    75% {
+      rotate: -0.4deg;
+    }
+  }
+  @keyframes breathe {
+    0%,
+    100% {
+      scale: 1 1;
+    }
+    50% {
+      scale: 1 1.004;
+    }
+  }
   @keyframes shimmer {
     0% {
       background-position: 160% 0;

@@ -1,7 +1,7 @@
 'use client';
 
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
-import { useEffect, useMemo, useState } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 import { Avatar } from '@/components/avatar/Avatar';
 import { Wordmark } from '@/components/shell/Wordmark';
 import { Button } from '@/components/ui/Button';
@@ -17,6 +17,8 @@ import { spring } from '@/lib/motion';
 import { sampleLook } from '@/lib/sample/looks';
 
 const CYCLE_MS = 3600;
+/** The first look stays longer: people read the headline against it, and the page finishes settling first. */
+const FIRST_SWAP_MS = 9000;
 
 /** Full-bleed opener: three people, three outfits, each one snapping to Matched. */
 export function WelcomeStep({ onStart }: { onStart: () => void }) {
@@ -30,12 +32,20 @@ export function WelcomeStep({ onStart }: { onStart: () => void }) {
 
   useEffect(() => {
     if (reduce) return;
-    const timer = setInterval(() => setIndex((i) => (i + 1) % looks.length), CYCLE_MS);
-    return () => clearInterval(timer);
+    let timer: number;
+    const tick = (delay: number) => {
+      timer = window.setTimeout(() => {
+        // Morphing a hidden tab is wasted work; wait until it's visible again.
+        if (!document.hidden) setIndex((i) => (i + 1) % looks.length);
+        tick(CYCLE_MS);
+      }, delay);
+    };
+    tick(FIRST_SWAP_MS);
+    return () => window.clearTimeout(timer);
   }, [reduce, looks.length]);
 
   return (
-    <div className="grid min-h-dvh grid-rows-[auto_1fr_auto] overflow-x-clip lg:grid-cols-2 lg:grid-rows-1">
+    <main className="grid min-h-dvh grid-rows-[auto_1fr_auto] overflow-x-clip lg:grid-cols-2 lg:grid-rows-1">
       <header className="flex h-masthead items-center px-gutter pt-safe lg:absolute lg:top-0 lg:left-0 lg:px-12">
         <Wordmark />
       </header>
@@ -44,8 +54,26 @@ export function WelcomeStep({ onStart }: { onStart: () => void }) {
         <p className="caps absolute top-4 right-gutter numerals text-ink-subtle lg:top-8 lg:right-12">
           Look {String(index + 1).padStart(2, '0')} / {String(looks.length).padStart(2, '0')}
         </p>
-        <div className="h-hero w-full max-w-sm lg:h-[82dvh]">
-          <Avatar config={look.avatar} outfit={look.outfit} label={`Look ${index + 1}: an illustrated figure in a matched outfit`} />
+        <div className="relative h-hero w-full max-w-sm lg:h-[82dvh]">
+          {/*
+            Its own Suspense boundary: React hydrates the figure in a separate task,
+            after the text and button. Looks cross-fade rather than morph: three
+            different people share no shape, and a whole-figure morph is heavy on phones.
+          */}
+          <Suspense fallback={null}>
+            <AnimatePresence initial={false}>
+              <motion.div
+                key={index}
+                className="absolute inset-0"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.7, ease: 'easeInOut' }}
+              >
+                <Avatar config={look.avatar} outfit={look.outfit} label={`Look ${index + 1}: an illustrated figure in a matched outfit`} />
+              </motion.div>
+            </AnimatePresence>
+          </Suspense>
         </div>
         <div className="absolute bottom-6 left-gutter flex flex-col items-start gap-3 lg:bottom-12 lg:left-12">
           <AnimatePresence mode="popLayout" initial={false}>
@@ -87,6 +115,6 @@ export function WelcomeStep({ onStart }: { onStart: () => void }) {
           </Text>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

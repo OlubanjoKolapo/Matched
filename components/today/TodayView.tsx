@@ -85,7 +85,13 @@ export function TodayView() {
     />
   );
 
-  if (wardrobe === undefined || !profile || day === undefined) return <div className="min-h-dvh" aria-busy="true" />;
+  if (wardrobe === undefined || !profile || day === undefined) {
+    return (
+      <div className="min-h-dvh" aria-busy="true">
+        {header}
+      </div>
+    );
+  }
 
   if (!fit) {
     return (

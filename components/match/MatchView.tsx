@@ -8,6 +8,7 @@ import { PageHeader } from '@/components/ui/PageHeader';
 import { SegmentedControl } from '@/components/ui/SegmentedControl';
 import { useProfile, useWardrobe } from '@/lib/hooks/data';
 import { useSearchParam } from '@/lib/hooks/useSearchFlag';
+import { scrollBehavior } from '@/lib/motion';
 import { fillBest, slotsFromItems, type Slots } from '@/lib/outfit/slots';
 import { useMatchBuilder } from '@/lib/store/match';
 import { OutfitBuilder } from './OutfitBuilder';
@@ -45,7 +46,7 @@ export function MatchView() {
   function open(slots: Slots) {
     setSlots(slots);
     setMode('build');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: scrollBehavior() });
   }
 
   if (!wardrobe || !profile || !rules) return <div className="min-h-dvh" aria-busy="true" />;

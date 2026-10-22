@@ -253,7 +253,13 @@ export function Avatar({ config, heightCm, outfit = [], idle = true, dropIn = fa
       preserveAspectRatio="xMidYMax meet"
       role="img"
       aria-label={label ?? describe(outfit)}
-      className={cx('block h-full w-full overflow-visible', className)}
+      // The idle sway is a CSS animation on the <svg> itself: the browser composites it on the
+      // GPU instead of repainting every path, filter and gradient on each frame.
+      className={cx(
+        'block h-full w-full origin-bottom overflow-visible',
+        idleAnimation && 'animate-sway will-change-transform motion-reduce:animate-none',
+        className,
+      )}
     >
       <AvatarDefs uid={uid} />
       <clipPath id={`${uid}-neck-clip`}>
@@ -264,16 +270,8 @@ export function Avatar({ config, heightCm, outfit = [], idle = true, dropIn = fa
       <Shape d={body.floor} fill="#1a0f08" opacity={0.16} filter={ctx.full ? `url(#${uid}-blur-floor)` : undefined} transition={transition} />
       {ctx.full ? <Shape d={body.contact} fill="#1a0f08" opacity={0.4} filter={blurM} transition={transition} /> : null}
 
-      <motion.g
-        style={{ originX: 0.5, originY: 1 }}
-        animate={idleAnimation ? { rotate: [0, 0.5, 0, -0.4, 0] } : { rotate: 0 }}
-        transition={idleAnimation ? { duration: 12, repeat: Infinity, ease: 'easeInOut' } : { duration: 0.3 }}
-      >
-        <motion.g
-          style={{ originX: 0.5, originY: 1 }}
-          animate={idleAnimation ? { scaleY: [1, 1.004, 1] } : { scaleY: 1 }}
-          transition={idleAnimation ? { duration: 4.6, repeat: Infinity, ease: 'easeInOut' } : { duration: 0.3 }}
-        >
+      <g>
+        <g>
           {hair.back ? (
             <g key={`hair-back-${config.hair}`}>
               <Surface d={hair.back} look={hairLook} ctx={ctx} lit="none" outlined={false} />
@@ -407,8 +405,8 @@ export function Avatar({ config, heightCm, outfit = [], idle = true, dropIn = fa
             <Surface key={`hand-${i}`} d={d} look={skinLook} ctx={ctx} lit="skin" outlined={false} />
           ))}
           {ctx.full ? <Shape d={body.fingers} stroke={shade(skin, -0.4)} strokeWidth={0.5} opacity={0.5} transition={transition} /> : null}
-        </motion.g>
-      </motion.g>
+        </g>
+      </g>
     </svg>
   );
 }

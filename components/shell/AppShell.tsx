@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { AddButton } from './AddButton';
 import { Masthead } from './Masthead';
 import { NavBar } from './NavBar';
+import { OfflineNotice } from './OfflineNotice';
 
 export function AppShell({ children }: { children: ReactNode }) {
   return (
@@ -20,7 +21,10 @@ export function AppShell({ children }: { children: ReactNode }) {
       >
         <div className="mx-auto w-full max-w-page px-gutter">{children}</div>
       </main>
-      <AddButton />
+      <aside aria-label="Quick add">
+        <AddButton />
+      </aside>
+      <OfflineNotice />
     </>
   );
 }

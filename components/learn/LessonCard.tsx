@@ -92,7 +92,7 @@ export function LessonCard({
   const folio = String(index + 1).padStart(2, '0');
 
   return (
-    <article
+    <div
       role="group"
       aria-roledescription="slide"
       aria-label={`${index + 1} of ${total}: ${lesson.title}`}
@@ -105,6 +105,13 @@ export function LessonCard({
         <span className="caps absolute top-3 left-3 rounded-pill bg-paper/80 px-2.5 py-1 text-ink-muted backdrop-blur-sm">
           The look
         </span>
+        {/* Over the figure, not in the text: marking a lesson read must not move anything. */}
+        {read ? (
+          <span className="caps absolute top-3 right-3 inline-flex items-center gap-1 rounded-pill bg-paper/80 px-2.5 py-1 text-ink-muted backdrop-blur-sm">
+            <Icon name="check" className="size-3.5" />
+            Read
+          </span>
+        ) : null}
       </div>
 
       <div className="flex max-w-prose flex-col gap-5">
@@ -112,12 +119,6 @@ export function LessonCard({
           <span className="numerals">No. {folio}</span>
           <span>{KIND_LABEL[lesson.kind]}</span>
           {audience ? <span className="text-accent">{audience}</span> : null}
-          {read ? (
-            <span className="inline-flex items-center gap-1">
-              <Icon name="check" className="size-3.5" />
-              Read
-            </span>
-          ) : null}
         </Eyebrow>
         <Heading as="h2" size="subhead">
           {lesson.title}
@@ -137,6 +138,6 @@ export function LessonCard({
           ) : null}
         </div>
       </div>
-    </article>
+    </div>
   );
 }

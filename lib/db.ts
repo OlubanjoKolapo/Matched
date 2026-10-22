@@ -1,4 +1,5 @@
 import Dexie, { type EntityTable } from 'dexie';
+import { ONBOARDED_KEY } from './theme-script';
 import type { Item, Outfit, Profile } from './types';
 
 /** The profile is a single row keyed 'me'. */
@@ -67,13 +68,25 @@ export async function getProfile(db = getDB()): Promise<Profile | undefined> {
   return profile as Profile;
 }
 
+/** Remembers (in localStorage, readable before paint) whether a profile exists. */
+export function markOnboarded(onboarded: boolean): void {
+  try {
+    if (onboarded) localStorage.setItem(ONBOARDED_KEY, '1');
+    else localStorage.removeItem(ONBOARDED_KEY);
+  } catch {
+    // Storage blocked: the gate just waits for IndexedDB instead.
+  }
+}
+
 export async function saveProfile(patch: Partial<Profile>, db = getDB()): Promise<Profile> {
-  return db.transaction('rw', db.profile, async () => {
+  const saved = await db.transaction('rw', db.profile, async () => {
     const current = (await getProfile(db)) ?? DEFAULT_PROFILE;
     const next: Profile = { ...current, ...patch };
     await db.profile.put({ ...next, id: PROFILE_ID });
     return next;
   });
+  if (typeof window !== 'undefined') markOnboarded(true);
+  return saved;
 }
 
 /** Wipes every table. Used by Settings → Clear all data. */
@@ -81,4 +94,5 @@ export async function clearAllData(db = getDB()): Promise<void> {
   await db.transaction('rw', [db.items, db.outfits, db.profile, db.days], async () => {
     await Promise.all([db.items.clear(), db.outfits.clear(), db.profile.clear(), db.days.clear()]);
   });
+  if (typeof window !== 'undefined') markOnboarded(false);
 }

@@ -194,7 +194,8 @@ export function Rail({
         />
         <div
           ref={scroller}
-          role="listbox"
+          role="group"
+          aria-roledescription="rail"
           aria-label="Clothes rail. Use the arrow keys to browse."
           tabIndex={0}
           onScroll={onScroll}

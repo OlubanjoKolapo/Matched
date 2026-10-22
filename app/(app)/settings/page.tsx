@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import { ApiKeySetting } from '@/components/settings/ApiKeySetting';
 import { AppearanceSetting } from '@/components/settings/AppearanceSetting';
 import { ClearDataSetting } from '@/components/settings/ClearDataSetting';
+import { InstallSetting } from '@/components/settings/InstallSetting';
 import { ProfileSettings } from '@/components/settings/ProfileSettings';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Hairline } from '@/components/ui/Hairline';
@@ -41,28 +42,32 @@ export default function SettingsPage() {
         title="Settings"
       />
       <section aria-labelledby="profile" className="max-w-page pb-10">
-        <p id="profile" className="caps pb-2 text-ink-muted">
+        <h2 id="profile" className="caps pb-2 text-ink-muted">
           Profile
-        </p>
+        </h2>
         <Hairline />
         <ProfileSettings />
         <Hairline />
       </section>
       <section aria-labelledby="tagging" className="max-w-page pb-10">
-        <p id="tagging" className="caps pb-2 text-ink-muted">
+        <h2 id="tagging" className="caps pb-2 text-ink-muted">
           Photo tagging
-        </p>
+        </h2>
         <Hairline />
         <ApiKeySetting />
         <Hairline />
       </section>
       <section aria-labelledby="appearance" className="max-w-page">
-        <p id="appearance" className="caps pb-2 text-ink-muted">
+        <h2 id="appearance" className="caps pb-2 text-ink-muted">
           Appearance
-        </p>
+        </h2>
         <Hairline />
         <SettingRow title="Edition" description="Day is paper and ink. Evening flips to ink and cream.">
           <AppearanceSetting />
+        </SettingRow>
+        <Hairline />
+        <SettingRow title="Install" description="Put Matched on your home screen. It opens full screen and works offline.">
+          <InstallSetting />
         </SettingRow>
         <Hairline />
         <SettingRow title="Design system" description="Every token and primitive Matched is built from.">
@@ -77,9 +82,9 @@ export default function SettingsPage() {
         <Hairline />
       </section>
       <section aria-labelledby="data" className="max-w-page pt-10">
-        <p id="data" className="caps pb-2 text-ink-muted">
+        <h2 id="data" className="caps pb-2 text-ink-muted">
           Your data
-        </p>
+        </h2>
         <Hairline />
         <SettingRow
           title="Clear all data"
