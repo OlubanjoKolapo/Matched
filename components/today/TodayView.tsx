@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { useMemo, useState } from 'react';
 import { Avatar } from '@/components/avatar/Avatar';
 import { FlatLay } from '@/components/avatar/FlatLay';
+import { PhotoMannequin } from '@/components/avatar/PhotoMannequin';
 import { ReasonList } from '@/components/match/ReasonList';
 import { ShareButton } from '@/components/share/ShareButton';
 import { ItemImage } from '@/components/wardrobe/ItemImage';
@@ -51,7 +52,7 @@ export function TodayView() {
   const profile = useProfile();
   const [date] = useState(() => dayKey());
   const day = useLiveQuery(() => getDay(date), [date]);
-  const [view, setView] = useState<'avatar' | 'flatlay'>('avatar');
+  const [view, setView] = useState<'mannequin' | 'avatar' | 'flatlay'>('mannequin');
   const [loadingSample, setLoadingSample] = useState(false);
 
   const rules = useMemo(
@@ -134,7 +135,7 @@ export function TodayView() {
   const key = outfitKey(fit.items);
   const worn = !!day.wornItemIds?.length;
   const canAvatar = avatarSupports(fit.items);
-  const mode = canAvatar ? view : 'flatlay';
+  const mode = view === 'avatar' && !canAvatar ? 'flatlay' : view;
 
   return (
     <>
@@ -142,7 +143,9 @@ export function TodayView() {
       <div className="grid gap-8 pb-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-12">
         <div className="relative h-[56svh] overflow-hidden rounded-md bg-studio lg:sticky lg:top-8 lg:h-[76dvh]">
           <div className="absolute inset-0 px-6 pt-6 pb-3">
-            {mode === 'avatar' ? (
+            {mode === 'mannequin' ? (
+              <PhotoMannequin frame={profile.avatar.frame} pieces={fit.items.map((i) => ({ item: i, src: imageUrl(i) }))} />
+            ) : mode === 'avatar' ? (
               <Avatar config={profile.avatar} heightCm={profile.heightCm} outfit={fit.items} />
             ) : (
               <div className="mx-auto h-full max-w-xs">
@@ -156,7 +159,11 @@ export function TodayView() {
               size="sm"
               value={mode}
               onChange={setView}
-              options={canAvatar ? [{ value: 'avatar', label: 'Figure' }, { value: 'flatlay', label: 'Flat-lay' }] : [{ value: 'flatlay', label: 'Flat-lay' }]}
+              options={[
+                { value: 'mannequin', label: 'Mannequin' },
+                ...(canAvatar ? [{ value: 'avatar' as const, label: 'Illustration' }] : []),
+                { value: 'flatlay', label: 'Flat-lay' },
+              ]}
               className="bg-paper/80 backdrop-blur-sm"
             />
           </div>

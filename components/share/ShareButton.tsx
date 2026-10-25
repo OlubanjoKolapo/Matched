@@ -58,7 +58,7 @@ export function ShareButton({
 }: {
   outfit: ItemTags[];
   result: ScoreResult;
-  mode: 'avatar' | 'flatlay';
+  mode: 'mannequin' | 'avatar' | 'flatlay';
   avatar: AvatarConfig;
   heightCm?: number;
   /** Cutout URL for each piece, for the flat-lay card. */
@@ -73,7 +73,7 @@ export function ShareButton({
     try {
       const hasOuter = outfit.some((i) => i.category === 'outerwear');
       const pieces: CardPiece[] | undefined =
-        mode === 'flatlay' ? outfit.map((item) => ({ src: imageFor(item), spot: spotFor(item.category, hasOuter) })) : undefined;
+        mode !== 'avatar' ? outfit.map((item) => ({ src: imageFor(item), spot: spotFor(item.category, hasOuter) })) : undefined;
       const avatarSvg = mode === 'avatar' ? await avatarMarkup(avatar, heightCm, outfit) : undefined;
       const blob = await renderShareCard({ score: result.score, verdict: result.verdict, reasons: result.reasons, avatarSvg, pieces });
       const outcome = await shareOrDownload(blob, `matched-${result.score}.png`);

@@ -133,25 +133,37 @@ function Surface({
       <Shape d={d} color={look.color} transition={transition} />
       {print ? <Shape d={d} fill={`url(#${uid}-pat-${print}-${ink})`} transition={transition} /> : null}
       {look.texture !== 'none' ? <Shape d={d} fill={`url(#${uid}-tex-${look.texture})`} transition={transition} /> : null}
+      {/* Subtle cotton grain on all cloth garments for fabric feel. */}
+      {lit === 'cloth' && look.texture === 'none' && ctx.full ? (
+        <Shape d={d} fill={`url(#${uid}-tex-cotton)`} transition={transition} />
+      ) : null}
       <Shape d={d} fill={`url(#${uid}-drape)`} transition={transition} />
       {lit !== 'none'
         ? (regions ?? [d]).map((region, i) => <Shape key={i} d={region} fill={gradient} transition={transition} />)
         : null}
+      {/* Edge rim light on garments for 3D pop. */}
+      {lit === 'cloth' && outlined && ctx.full ? (
+        <Shape d={d} fill={`url(#${uid}-edge-light)`} transition={transition} />
+      ) : null}
     </>
   );
 }
 
 /**
- * Fabric folds: a broad, very soft shadow trough with a faint highlight on its
- * upper lip. Wide and blurred so they read as cloth, not as drawn lines.
+ * Fabric folds: layered shadow troughs with highlight ridges. Multiple passes
+ * at different blur radii give the impression of real cloth draping.
  */
 function Folds({ d, look, ctx }: { d?: string; look: GarmentLook; ctx: Ctx }) {
   if (!d || !ctx.full) return null;
   const dark = luminance(look.color) < 0.03;
   return (
     <>
-      <Shape d={d} stroke={dark ? '#fff' : '#000'} strokeWidth={3} opacity={dark ? 0.06 : 0.11} filter={`url(#${ctx.uid}-blur-m)`} transition={ctx.transition} />
-      <Shape d={d} stroke="#fff" strokeWidth={1.4} opacity={0.1} transform="translate(-0.6 -1.6)" filter={`url(#${ctx.uid}-blur-m)`} transition={ctx.transition} />
+      {/* Broad, soft shadow pass — reads as the main drape. */}
+      <Shape d={d} stroke={dark ? '#fff' : '#000'} strokeWidth={3.5} opacity={dark ? 0.06 : 0.12} filter={`url(#${ctx.uid}-blur-m)`} transition={ctx.transition} />
+      {/* Tighter crease shadow for sharper detail. */}
+      <Shape d={d} stroke={dark ? '#fff' : '#000'} strokeWidth={1.4} opacity={dark ? 0.04 : 0.08} filter={`url(#${ctx.uid}-blur-s)`} transition={ctx.transition} />
+      {/* Highlight ridge on the upper lip of each fold. */}
+      <Shape d={d} stroke="#fff" strokeWidth={1.2} opacity={0.12} transform="translate(-0.5 -1.4)" filter={`url(#${ctx.uid}-blur-s)`} transition={ctx.transition} />
     </>
   );
 }
@@ -174,6 +186,17 @@ function Detail({ d, look, ctx, fill, solid = false }: { d?: string; look: Garme
       dashed={!fill && !solid}
       transition={ctx.transition}
     />
+  );
+}
+
+/** Visible construction seam: a fine topstitch line. */
+function Seam({ d, look, ctx }: { d?: string; look: GarmentLook; ctx: Ctx }) {
+  if (!d || !ctx.full) return null;
+  return (
+    <>
+      <Shape d={d} stroke={outline(look.color)} strokeWidth={0.5} opacity={0.3} dashed transition={ctx.transition} />
+      <Shape d={d} stroke="#fff" strokeWidth={0.3} opacity={0.08} transform="translate(-0.3 -0.3)" transition={ctx.transition} />
+    </>
   );
 }
 
@@ -300,7 +323,16 @@ export function Avatar({ config, heightCm, outfit = [], idle = true, dropIn = fa
             <Layer key={`shoes-${shoes.item ? 'item' : 'basic'}`}>
               <Surface d={shoeD.upper} look={shoeLook} ctx={ctx} regions={shoeD.uppers} lit="skin" />
               <Shape d={shoeD.sole} color={shade(shoeLook.color, shoes.spec.profile === 'chunky' ? 0.75 : -0.4)} transition={transition} />
-              {ctx.full ? <Shape d={shoeD.toeLight} fill="#fff" opacity={0.3} filter={blurS} transition={transition} /> : null}
+              {ctx.full ? (
+                <>
+                  <Shape d={shoeD.toeLight} fill="#fff" opacity={0.28} filter={blurS} transition={transition} />
+                  <Shape d={shoeD.toeCap} stroke={outline(shoeLook.color)} strokeWidth={0.6} opacity={0.4} transition={transition} />
+                  <Shape d={shoeD.tongue} fill={shade(shoeLook.color, 0.08)} stroke={outline(shoeLook.color)} strokeWidth={0.4} opacity={0.5} transition={transition} />
+                  <Shape d={shoeD.heelCounter} stroke={outline(shoeLook.color)} strokeWidth={0.5} opacity={0.3} transition={transition} />
+                  <Shape d={shoeD.pullTab} stroke={outline(shoeLook.color)} strokeWidth={0.5} opacity={0.35} transition={transition} />
+                  <Shape d={shoeD.soleEdge} stroke="#fff" strokeWidth={0.6} opacity={0.15} transition={transition} />
+                </>
+              ) : null}
             </Layer>
 
             {bottomD ? (
@@ -314,6 +346,15 @@ export function Avatar({ config, heightCm, outfit = [], idle = true, dropIn = fa
                     <Detail d={bottomD.pockets} look={bottomLook} ctx={ctx} />
                     <Detail d={bottomD.creases} look={bottomLook} ctx={ctx} solid />
                     <Detail d={bottomD.hemline} look={bottomLook} ctx={ctx} />
+                    {ctx.full ? (
+                      <>
+                        <Seam d={bottomD.inseam} look={bottomLook} ctx={ctx} />
+                        <Detail d={bottomD.beltLoops} look={bottomLook} ctx={ctx} fill={outline(bottomLook.color)} solid />
+                        {bottomD.rivets ? (
+                          <Shape d={bottomD.rivets} fill={shade(bottomLook.color, 0.5)} stroke={outline(bottomLook.color)} strokeWidth={0.3} opacity={0.5} transition={transition} />
+                        ) : null}
+                      </>
+                    ) : null}
                   </>
                 ) : (
                   <>
@@ -340,6 +381,16 @@ export function Avatar({ config, heightCm, outfit = [], idle = true, dropIn = fa
                 <Detail d={topD.sleeves} look={topLook} ctx={ctx} solid />
                 <Detail d={topD.pocket} look={topLook} ctx={ctx} fill="rgba(0,0,0,0.07)" />
                 <Detail d={topD.placket} look={topLook} ctx={ctx} />
+                {ctx.full ? (
+                  <>
+                    <Seam d={topD.shoulderSeam} look={topLook} ctx={ctx} />
+                    <Seam d={topD.sideSeam} look={topLook} ctx={ctx} />
+                    <Seam d={topD.cuffLine} look={topLook} ctx={ctx} />
+                    {topD.buttons ? (
+                      <Shape d={topD.buttons} fill={shade(topLook.color, 0.35)} stroke={outline(topLook.color)} strokeWidth={0.3} opacity={0.55} transition={transition} />
+                    ) : null}
+                  </>
+                ) : null}
                 {topD.collar ? (
                   <Shape d={topD.collar} color={shade(topLook.color, 0.06)} stroke={outline(topLook.color)} strokeWidth={0.7} transition={transition} />
                 ) : null}

@@ -277,6 +277,47 @@ export function topPaths(f: Figure, spec: TopSpec) {
     .L({ x: cx - 5, y: f.neckY + headH * 0.75 })
     .toString();
 
+  // Buttons along the placket: 4–5 small circles.
+  const buttons: string | undefined = spec.placket
+    ? Array.from({ length: 5 }, (_, i) => {
+        const by = lerp(p.neck.y + dip + 8, hemY - 10, i / 4);
+        return `M${cx + 1.2} ${by}a1.3 1.3 0 1 0 -2.6 0a1.3 1.3 0 1 0 2.6 0`;
+      }).join(' ')
+    : undefined;
+
+  // Shoulder seam: visible topstitch from neck to shoulder point.
+  const shoulderSeam = path()
+    .M({ x: p.neck.x + 2, y: p.neck.y + 2 })
+    .C(
+      { x: p.neck.x + 8, y: p.neck.y },
+      { x: p.shoulder.x - 10, y: p.shoulder.y - 2 },
+      { x: p.shoulder.x - 2, y: p.shoulder.y + 1 },
+    )
+    .toString();
+
+  // Side seam: from armpit to hem.
+  const sideSeam = path()
+    .M({ x: p.armpit.x - 0.5, y: p.armpit.y + 4 })
+    .C(
+      { x: p.armpit.x, y: lerp(p.armpit.y, hemY, 0.5) },
+      { x: p.hem.x + 0.5, y: hemY - 16 },
+      { x: p.hem.x - 0.5, y: hemY - 2 },
+    )
+    .toString();
+
+  // Cuff ribbing line at the end of long sleeves.
+  const cuffLine: string | undefined =
+    spec.sleeve > 0.8
+      ? (() => {
+          const a = armAt(f.arm, spec.sleeve - 0.04);
+          const half = a.half + 1.5 + spec.ease * 0.35 + 3.5;
+          const o: Pt = { x: a.centre.x + a.normal.x * half, y: a.centre.y + a.normal.y * half };
+          const i: Pt = { x: a.centre.x - a.normal.x * half, y: a.centre.y - a.normal.y * half };
+          const line = path().M(o).L(i).toString();
+          return `${line} ${mirrorD(line)}`;
+        })()
+      : undefined;
+
   return {
     body,
     sleeves: sleeveEdges(p, spec.sleeve),
@@ -286,9 +327,13 @@ export function topPaths(f: Figure, spec: TopSpec) {
     trim,
     collar: spec.neckline === 'collar' ? collar : undefined,
     placket: spec.placket ? placket : undefined,
+    buttons,
     pocket: spec.pocket === 'kangaroo' ? kangaroo : spec.pocket === 'chest' ? chestPocket : undefined,
     hood: spec.neckline === 'hood' ? hood : undefined,
     drawstrings: spec.neckline === 'hood' ? `${drawstring} ${mirrorD(drawstring)}` : undefined,
+    shoulderSeam: `${shoulderSeam} ${mirrorD(shoulderSeam)}`,
+    sideSeam: `${sideSeam} ${mirrorD(sideSeam)}`,
+    cuffLine,
   };
 }
 
@@ -527,6 +572,30 @@ export function trouserPaths(f: Figure, spec: TrouserSpec) {
     crease(hemY - 7, 0.8, breakDepth + 0.5),
   ].join(' ');
 
+  // Belt loops: small vertical tabs along the waistband.
+  const loopW = 1.4;
+  const beltLoops = [cx - waistHalf * 0.7, cx - waistHalf * 0.2, cx + waistHalf * 0.2, cx + waistHalf * 0.7]
+    .map((lx) => path().M({ x: lx - loopW / 2, y: topY + 0.5 }).L({ x: lx - loopW / 2, y: topY + 5 }).L({ x: lx + loopW / 2, y: topY + 5 }).L({ x: lx + loopW / 2, y: topY + 0.5 }).Z().toString())
+    .join(' ');
+
+  // Inseam line down each inner leg.
+  const inseam = path()
+    .M({ x: cx + 3, y: crotch.y + 2 })
+    .C({ x: KI.x + (KO.x - KI.x) * 0.35, y: kneeY }, { x: HI.x + (HO.x - HI.x) * 0.35, y: hemY - 10 }, { x: HI.x + (HO.x - HI.x) * 0.35, y: hemY - 1 })
+    .toString();
+
+  // Rivet dots on denim near pocket corners.
+  const rivets: string | undefined = spec.denim
+    ? [
+        { x: WR.x - 2, y: topY + 7 },
+        { x: WR.x - 13, y: topY + 22 },
+        { x: cx + 3, y: topY + 6 },
+      ]
+        .map((r) => `M${r.x + 0.9} ${r.y}a0.9 0.9 0 1 0 -1.8 0a0.9 0.9 0 1 0 1.8 0`)
+        .join(' ')
+    : undefined;
+  const rivetsD = rivets ? `${rivets} ${mirrorD(rivets)}` : undefined;
+
   return {
     body,
     legShapes: [mirrorD(leg), leg] as [string, string],
@@ -535,6 +604,9 @@ export function trouserPaths(f: Figure, spec: TrouserSpec) {
     fly,
     creases: spec.creased ? `${creaseSide} ${mirrorD(creaseSide)}` : undefined,
     pockets: `${pocketSide} ${mirrorD(pocketSide)}`,
+    beltLoops,
+    inseam: `${inseam} ${mirrorD(inseam)}`,
+    rivets: rivetsD,
     hemline: spec.denim
       ? `${path().M({ x: HI.x + 1, y: hemY - 3 }).L({ x: HO.x - 1, y: hemY - 3 }).toString()} ${mirrorD(
           path().M({ x: HI.x + 1, y: hemY - 3 }).L({ x: HO.x - 1, y: hemY - 3 }).toString(),
@@ -665,7 +737,7 @@ export function shoePaths(f: Figure, spec: ShoeSpec) {
     boot: { collar: lerp(f.calfY, f.ankleY, 0.45), aw: w.calf + 1.4, toe: 13.5, sole: 5.5 },
     heel: { collar: f.ankleY + 6, aw: w.ankle + 1.2, toe: 9.5, sole: 2 },
   }[spec.profile];
-  const out = 3.5; // toes turned slightly out
+  const out = 3.5;
   const base = floor - shape.sole;
   const mid = lerp(shape.collar, base, 0.55);
 
@@ -686,7 +758,6 @@ export function shoePaths(f: Figure, spec: ShoeSpec) {
     .Z()
     .toString();
 
-  // Light catching the toe box.
   const toeLight = smoothPath(
     [
       { x: fx - shape.toe * 0.4 + out, y: base - 4.5 },
@@ -697,11 +768,62 @@ export function shoePaths(f: Figure, spec: ShoeSpec) {
     true,
   );
 
+  // Toe cap line: a visible seam separating the toe box.
+  const toeCap = smoothPath(
+    [
+      { x: fx - shape.toe * 0.55 + out, y: base - 1.5 },
+      { x: fx - shape.toe * 0.1 + out, y: base - 5.5 },
+      { x: fx + shape.toe * 0.35 + out, y: base - 5.5 },
+      { x: fx + shape.toe * 0.6 + out, y: base - 1.5 },
+    ],
+    false,
+  );
+
+  // Tongue: visible V between the lacing panels.
+  const tongueY = lerp(shape.collar, base, 0.25);
+  const tongue = smoothPath(
+    [
+      { x: fx - shape.aw * 0.25 + out * 0.3, y: shape.collar - 1.5 },
+      { x: fx + out * 0.3, y: tongueY },
+      { x: fx + shape.aw * 0.25 + out * 0.3, y: shape.collar - 1.5 },
+    ],
+    false,
+  );
+
+  // Heel counter: a structural seam at the back of the shoe.
+  const heelY = lerp(shape.collar, base, 0.6);
+  const heelCounter = path()
+    .M({ x: fx - shape.aw * 0.3, y: shape.collar })
+    .C({ x: fx - shape.aw * 0.35, y: heelY }, { x: fx - shape.aw * 0.35, y: heelY + 2 }, { x: fx - shape.aw * 0.1, y: base })
+    .toString();
+
+  // Pull tab on the heel collar.
+  const pullTab = smoothPath(
+    [
+      { x: fx - shape.aw * 0.15, y: shape.collar - 2.5 },
+      { x: fx - shape.aw * 0.05, y: shape.collar - 5 },
+      { x: fx + shape.aw * 0.05, y: shape.collar - 5 },
+      { x: fx + shape.aw * 0.15, y: shape.collar - 2.5 },
+    ],
+    false,
+  );
+
+  // Sole edge highlight for depth.
+  const soleEdge = path()
+    .M({ x: fx - shape.toe * 0.7 + out, y: base + 0.5 })
+    .L({ x: fx + shape.toe * 0.7 + out, y: base + 0.5 })
+    .toString();
+
   return {
     upper: `${upper} ${mirrorD(upper)}`,
     uppers: [mirrorD(upper), upper] as [string, string],
     sole: `${sole} ${mirrorD(sole)}`,
     toeLight: `${toeLight} ${mirrorD(toeLight)}`,
+    toeCap: `${toeCap} ${mirrorD(toeCap)}`,
+    tongue: `${tongue} ${mirrorD(tongue)}`,
+    heelCounter: `${heelCounter} ${mirrorD(heelCounter)}`,
+    pullTab: `${pullTab} ${mirrorD(pullTab)}`,
+    soleEdge: `${soleEdge} ${mirrorD(soleEdge)}`,
   };
 }
 

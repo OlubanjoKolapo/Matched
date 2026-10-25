@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useMemo, useState } from 'react';
 import { Avatar } from '@/components/avatar/Avatar';
+import { PhotoMannequin } from '@/components/avatar/PhotoMannequin';
 import { ShareButton } from '@/components/share/ShareButton';
 import { FlatLay } from '@/components/avatar/FlatLay';
 import { Button } from '@/components/ui/Button';
@@ -29,7 +30,7 @@ import { SlotPicker } from './SlotPicker';
  */
 export function OutfitBuilder({ wardrobe, profile }: { wardrobe: Item[]; profile: Profile }) {
   const { slots, setSlot, setSlots, clear } = useMatchBuilder();
-  const [view, setView] = useState<'avatar' | 'flatlay'>('avatar');
+  const [view, setView] = useState<'mannequin' | 'avatar' | 'flatlay'>('mannequin');
   const [saved, setSaved] = useState<string | null>(null);
 
   const rules: RulesProfile = useMemo(() => ({ track: profile.track, goals: profile.goals, heightCm: profile.heightCm }), [profile]);
@@ -38,7 +39,7 @@ export function OutfitBuilder({ wardrobe, profile }: { wardrobe: Item[]; profile
   const key = outfitKey(items);
   const bottomNeeded = needsBottom(slots, wardrobe);
   const canAvatar = avatarSupports(items);
-  const mode = canAvatar ? view : 'flatlay';
+  const mode = view === 'avatar' && !canAvatar ? 'flatlay' : view;
 
   async function save() {
     if (!result) return;
@@ -52,7 +53,9 @@ export function OutfitBuilder({ wardrobe, profile }: { wardrobe: Item[]; profile
       <div className="sticky top-[calc(var(--spacing-masthead)+env(safe-area-inset-top))] z-(--z-stage) -mx-gutter lg:order-2 lg:mx-0 lg:top-8 lg:self-start">
         <div className="relative h-[40svh] overflow-hidden bg-studio lg:h-[78dvh] lg:rounded-md">
           <div className="absolute inset-0 px-6 pt-4 pb-3">
-            {mode === 'avatar' ? (
+            {mode === 'mannequin' ? (
+              <PhotoMannequin frame={profile.avatar.frame} pieces={items.map((i) => ({ item: i, src: imageUrl(i) }))} />
+            ) : mode === 'avatar' ? (
               <Avatar config={profile.avatar} heightCm={profile.heightCm} outfit={items} />
             ) : items.length ? (
               <div className="mx-auto h-full max-w-xs">
@@ -66,7 +69,11 @@ export function OutfitBuilder({ wardrobe, profile }: { wardrobe: Item[]; profile
               size="sm"
               value={mode}
               onChange={setView}
-              options={canAvatar ? [{ value: 'avatar', label: 'Figure' }, { value: 'flatlay', label: 'Flat-lay' }] : [{ value: 'flatlay', label: 'Flat-lay' }]}
+              options={[
+                { value: 'mannequin', label: 'Mannequin' },
+                ...(canAvatar ? [{ value: 'avatar' as const, label: 'Illustration' }] : []),
+                { value: 'flatlay', label: 'Flat-lay' },
+              ]}
               className="bg-paper/80 backdrop-blur-sm"
             />
           </div>

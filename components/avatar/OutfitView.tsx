@@ -6,15 +6,16 @@ import { SegmentedControl } from '@/components/ui/SegmentedControl';
 import { avatarSupports } from '@/lib/avatar/garments';
 import { cx } from '@/lib/cx';
 import { duration } from '@/lib/motion';
-import type { AvatarConfig } from '@/lib/types';
+import type { AvatarConfig, Item } from '@/lib/types';
 import { Avatar } from './Avatar';
 import { FlatLay, type FlatLayPiece } from './FlatLay';
+import { PhotoMannequin } from './PhotoMannequin';
 
-type Mode = 'avatar' | 'flatlay';
+type Mode = 'mannequin' | 'avatar' | 'flatlay';
 
 /**
- * Every outfit can be seen on the avatar or as a flat-lay of the real cutouts.
- * Outfits with pieces the avatar can't draw open in flat-lay.
+ * Every outfit can be seen as a photo mannequin, an SVG illustration, or a
+ * flat-lay of the real cutouts. Defaults to the photo mannequin.
  */
 export function OutfitView({
   pieces,
@@ -29,8 +30,14 @@ export function OutfitView({
 }) {
   const items = pieces.map((p) => p.item);
   const supported = avatarSupports(items);
-  const [chosen, setChosen] = useState<Mode>('avatar');
-  const mode: Mode = supported ? chosen : 'flatlay';
+  const [chosen, setChosen] = useState<Mode>('mannequin');
+  const mode: Mode = chosen === 'avatar' && !supported ? 'flatlay' : chosen;
+
+  const options: { value: Mode; label: string }[] = [
+    { value: 'mannequin', label: 'Mannequin' },
+    ...(supported ? [{ value: 'avatar' as Mode, label: 'Illustration' }] : []),
+    { value: 'flatlay', label: 'Flat-lay' },
+  ];
 
   return (
     <div className={cx('flex flex-col gap-4', className)}>
@@ -41,7 +48,7 @@ export function OutfitView({
           size="sm"
           value={mode}
           onChange={setChosen}
-          options={supported ? [{ value: 'avatar', label: 'Avatar' }, { value: 'flatlay', label: 'Flat-lay' }] : [{ value: 'flatlay', label: 'Flat-lay' }]}
+          options={options}
         />
       </div>
       <AnimatePresence mode="wait" initial={false}>
@@ -53,7 +60,12 @@ export function OutfitView({
           transition={{ duration: duration.base }}
           className="aspect-[4/5] w-full"
         >
-          {mode === 'avatar' ? (
+          {mode === 'mannequin' ? (
+            <PhotoMannequin
+              frame={avatar.frame}
+              pieces={pieces.map((p) => ({ item: p.item as Item, src: p.src }))}
+            />
+          ) : mode === 'avatar' ? (
             <Avatar config={avatar} heightCm={heightCm} outfit={items} />
           ) : (
             <FlatLay pieces={pieces} />
